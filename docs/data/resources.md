@@ -11,14 +11,15 @@
     "G5": 3
   },
   "safeRanges": {
-    "top3": {
-      "targetWeighted": "≈52%+ (model, not official)",
-      "confidence": "Based on the 1404–1403 AI subgroup public table; hitting ~52% weighted kept the leading three candidates safely ahead in this model.",
+    "featured": {
+      "title": "Top sample (ranks 1–10, model)",
+      "targetWeighted": "≈52–55% (model, not official)",
+      "confidence": "Derived from the 1404–1403 AI subgroup sample with weights 1–2–3–4–2–3; guidance only, not guarantees.",
       "perGroup": {
-        "G3": "67–78%",
-        "G2": "69–89%",
-        "G5": "50–63%",
-        "G4": "47–54%",
+        "G3": "73–78%",
+        "G2": "47–70%",
+        "G5": "56–63%",
+        "G4": "38–51%",
         "G1": "17–32%",
         "G0": "0–23%"
       }

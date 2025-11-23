@@ -95,19 +95,23 @@ function renderTimeline(events) {
   const end = sorted[sorted.length - 1].date.getTime();
   const span = Math.max(1, end - start);
   const rowAnchors = [];
+  const trackWidth = track.getBoundingClientRect().width || track.offsetWidth || 780;
+  const cardWidth = 190;
+  const minGapPx = cardWidth + 24;
 
   sorted.forEach((evt) => {
     const status = evt.date < now ? 'done' : 'upcoming';
     const ratio = (evt.date.getTime() - start) / span;
-    const left = ratio * 100;
+    const leftPercent = ratio * 100;
+    const leftPx = ratio * trackWidth;
     let rowIndex = 0;
-    while (rowAnchors[rowIndex] !== undefined && Math.abs(left - rowAnchors[rowIndex]) < 10) {
+    while (rowAnchors[rowIndex] !== undefined && Math.abs(leftPx - rowAnchors[rowIndex]) < minGapPx) {
       rowIndex += 1;
     }
-    rowAnchors[rowIndex] = left;
+    rowAnchors[rowIndex] = leftPx;
     const item = document.createElement('div');
     item.className = `timeline-item ${status}`;
-    item.style.left = `${left}%`;
+    item.style.left = `${leftPercent}%`;
     item.style.setProperty('--row', rowIndex);
     item.innerHTML = `
       <div class="timeline-dot"></div>
@@ -119,7 +123,7 @@ function renderTimeline(events) {
   });
 
   const rowsUsed = rowAnchors.length || 1;
-  track.style.minHeight = `${160 + (rowsUsed - 1) * 120}px`;
+  track.style.minHeight = `${170 + (rowsUsed - 1) * 140}px`;
 }
 
 function renderCourses(courses, weights) {
@@ -244,15 +248,17 @@ function renderCalculator(weights) {
 
 function renderSafeRange(safeRanges) {
   const container = document.getElementById('safe-range');
-  const top3 = safeRanges.top3;
+  const featured = safeRanges.featured || safeRanges.top3;
+  if (!featured) return;
   container.innerHTML = `
-    <h3>Safe range for top 3</h3>
-    <p>${top3.confidence}</p>
-    <p class="result">${top3.targetWeighted}</p>
+    <h3>${featured.title || 'Safe range snapshot'}</h3>
+    <p>${featured.confidence}</p>
+    <p class="result">${featured.targetWeighted}</p>
     <ul>
-      ${Object.entries(top3.perGroup)
-        .map(([group, band]) => `<li><strong>${group}</strong>: ${band}</li>`)
-        .join('')}
+      ${(featured.perGroup &&
+        Object.entries(featured.perGroup)
+          .map(([group, band]) => `<li><strong>${group}</strong>: ${band}</li>`)
+          .join('')) || ''}
     </ul>`;
 }
 
@@ -287,11 +293,106 @@ function renderScoreTable(candidates, weights) {
   });
 }
 
+function renderBandSummary(bandsData) {
+  const container = document.getElementById('band-grid');
+  if (!container || !bandsData?.bands) return;
+  container.innerHTML = '';
+  bandsData.bands.forEach((band) => {
+    const card = document.createElement('div');
+    card.className = 'band-card';
+    const metrics = ['L', 'M', 'T', 'A', 'H', 'S', 'W']
+      .filter((k) => band.metrics[k])
+      .map(
+        (k) => `
+        <li>
+          <span class="code">${k}</span>
+          <div>
+            <p class="range">${band.metrics[k].range}</p>
+            <p class="muted">avg ~${band.metrics[k].avg}%</p>
+          </div>
+        </li>`,
+      )
+      .join('');
+    card.innerHTML = `
+      <div class="band-header">
+        <p class="eyebrow">${band.label}</p>
+        <h3>${band.range}</h3>
+        <p class="muted">Sample size: ${band.sampleSize}</p>
+        <p class="muted">${band.description}</p>
+      </div>
+      <ul class="band-metrics">${metrics}</ul>`;
+    container.appendChild(card);
+  });
+}
+
+function renderBlockTargets(bandsData) {
+  const container = document.getElementById('block-targets');
+  if (!container || !bandsData?.blockTargets) return;
+  container.innerHTML = '';
+  bandsData.blockTargets.forEach((block) => {
+    const bandLines = Object.entries(block.bands)
+      .map(([band, text]) => `<li><strong>${band}</strong>: ${text}</li>`)
+      .join('');
+    const targets = (block.targets || []).map((t) => `<li>${t}</li>`).join('');
+    const card = document.createElement('div');
+    card.className = 'target-card';
+    card.innerHTML = `
+      <div class="target-heading">
+        <p class="eyebrow">${block.block} block (weight ×${block.weight})</p>
+        <h4>${block.name}</h4>
+        <p class="muted">${block.notes || ''}</p>
+      </div>
+      <div class="target-body">
+        <p class="eyebrow">Observed ranges (sample)</p>
+        <ul class="band-lines">${bandLines}</ul>
+        <p class="eyebrow">Practical targets</p>
+        <ul class="targets">${targets}</ul>
+      </div>`;
+    container.appendChild(card);
+  });
+}
+
+function renderWeightedBands(bandsData) {
+  const container = document.getElementById('weighted-bands');
+  if (!container || !bandsData?.weightedBands) return;
+  container.innerHTML = '<h3>Weighted score bands (model)</h3>';
+  const list = document.createElement('div');
+  list.className = 'weighted-band-list';
+  bandsData.weightedBands.forEach((band) => {
+    const pill = document.createElement('div');
+    pill.className = 'weighted-band';
+    pill.innerHTML = `
+      <div class="band-range">${band.range}</div>
+      <div class="band-score">${band.score}</div>
+      <p class="muted">${band.note}</p>`;
+    list.appendChild(pill);
+  });
+  container.appendChild(list);
+}
+
+function renderFormula(bandsData, weights) {
+  const container = document.getElementById('formula-card');
+  if (!container) return;
+  const formulaText = bandsData?.formula || '(1*L + 2*M + 3*T + 4*A + 2*H + 3*S) / 15';
+  const mockLink = bandsData?.mockSchema?.download || './data/mock-results-schema.csv';
+  container.innerHTML = `
+    <h3>Mock logging template</h3>
+    <p class="muted">Use this Excel/Sheets-ready schema and formula to log your practice tests.</p>
+    <p class="eyebrow">Weighted formula</p>
+    <code class="formula-code">${formulaText}</code>
+    <p class="muted">Weights currently: ${Object.entries(weights)
+      .map(([g, w]) => `${g}×${w}`)
+      .join(', ')}</p>
+    <a class="download" href="${mockLink}" download>Download mock-results-schema.csv</a>
+  `;
+}
+
 async function bootstrap() {
   try {
-    const [eventData, resources] = await Promise.all([
+    const [eventData, resources, bands] = await Promise.all([
       loadJsonFromMarkdown('./data/events.md'),
       loadJsonFromMarkdown('./data/resources.md'),
+      loadJsonFromMarkdown('./data/empirical-bands.md'),
     ]);
     const events = eventData.events;
     renderCountdownCards(events);
@@ -303,6 +404,10 @@ async function bootstrap() {
     renderCalculator(resources.weights);
     renderSafeRange(resources.safeRanges);
     renderScoreTable(resources.candidateScores, resources.weights);
+    renderBandSummary(bands);
+    renderBlockTargets(bands);
+    renderWeightedBands(bands);
+    renderFormula(bands, resources.weights);
   } catch (err) {
     console.error(err);
     const page = document.querySelector('.page');

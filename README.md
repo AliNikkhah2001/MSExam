@@ -61,6 +61,9 @@ This repo is wired so you can keep the countdown in the header **up to date auto
   - **`docs/data/resources.md`** – edit course books/OCW links, playlist mappings, exam weights, or the real candidate table
     and the site will re-render without code changes.
   - **`docs/data/real-ai-results-1404-1403.md`** – the raw table of public AI subgroup results used to seed the score model.
+  - **`docs/data/empirical-bands.md`** – JSON + narrative of empirical rank bands, block targets, and the weighted score
+    mapping used by the “Empirical bands” panel.
+  - **`docs/data/mock-results-schema.csv`** – Excel/Sheets-ready schema for logging your own mocks with the same weight model.
 - To publish:
   1. In the GitHub repository settings, set **Pages → Source** to **Deploy from a branch → `/docs` folder**.
   2. Push changes; Pages will serve the site (no build step required).

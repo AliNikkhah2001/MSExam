@@ -1,10 +1,9 @@
-# AI M.Sc Konkur 1405 – Rank 1–3 Master Plan
+# AI M.Sc Konkur 1405 – Master Plan
 
 > Treat this like a production rollout: each **subject** is a service, each **mock exam** is an integration test, each **mistake** is a bug you must triage and fix.
 
 <!-- COUNTDOWN_START -->
 ![Exam](https://img.shields.io/badge/Exam-AI%20MSc%201405-blue)
-![Target Rank](https://img.shields.io/badge/Target%20Rank-1--3-brightgreen)
 ![Days_to_Day_1](https://img.shields.io/badge/days_to_day1-165-informational)
 ![Days_to_Day_2](https://img.shields.io/badge/days_to_day2-166-informational)
 
@@ -18,12 +17,13 @@
 ## Table of Contents
 
 1. [How the dynamic countdown works](#how-the-dynamic-countdown-works)
-2. [Key dates & admin](#key-dates--admin)
-3. [Subject groups & weights](#subject-groups--weights)
-4. [Weekly & phase roadmap](#weekly--phase-roadmap)
-5. [Global task checklist](#global-task-checklist)
-6. [Per-subject checklists](#persubject-checklists)
-7. [Mock exam log](#mock-exam-log)
+2. [Live GitHub Pages microsite](#live-github-pages-microsite)
+3. [Key dates & admin](#key-dates--admin)
+4. [Subject groups & weights](#subject-groups--weights)
+5. [Weekly & phase roadmap](#weekly--phase-roadmap)
+6. [Global task checklist](#global-task-checklist)
+7. [Per-subject checklists](#persubject-checklists)
+8. [Mock exam log](#mock-exam-log)
 
 ---
 
@@ -48,6 +48,23 @@ This repo is wired so you can keep the countdown in the header **up to date auto
   - Commits the updated README back to the repo.
 
 > TL;DR: push this repo to GitHub with Actions enabled and the countdown stays fresh without you touching it.
+
+---
+
+## Live GitHub Pages microsite
+
+- The repository now ships with a ready-to-serve site in **`docs/index.html`** that GitHub Pages can publish from the
+  `/docs` folder.
+- All timelines, countdowns, resources, and score analytics pull data from two markdown files:
+  - **`docs/data/events.md`** – edit event names or dates and the countdowns + timeline will update automatically on the
+    next page load.
+  - **`docs/data/resources.md`** – edit course books/OCW links, exam weights, safe ranges, or the 50-sample score table
+    and the site will re-render without code changes.
+- To publish:
+  1. In the GitHub repository settings, set **Pages → Source** to **Deploy from a branch → `/docs` folder**.
+  2. Push changes; Pages will serve the site (no build step required).
+  3. Update the markdown data whenever schedules or resources change; the browser fetches the latest JSON block from
+     each markdown file on every load.
 
 ---
 
@@ -94,7 +111,7 @@ For the **AI subgroup** of Computer Engineering:
 | G4    | Digital Logic, Computer Architecture, Digital Electronics | 2 |
 | G5    | Operating Systems, Computer Networks, Databases   | 3      |
 
-**Target profile for rank 1–3 (aggressive but realistic):**
+**Target profile for top performance (aggressive but realistic):**
 
 - G3 and G5: **80–95%**
 - G2 and G4: **70–90%**

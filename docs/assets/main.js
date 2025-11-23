@@ -267,15 +267,13 @@ function renderScoreTable(candidates, weights) {
   tbody.innerHTML = '';
   const formatCell = (value) => `${(value * 100).toFixed(1)}%`;
   candidates.forEach((c) => {
-    const computed = computeWeightedScore(c.groupScores, weights);
-    const breakdown = Object.entries(weights)
-      .map(([group, weight]) => `${group}×${weight}=${(((c.groupScores || {})[group] || 0) * 100).toFixed(1)}%`)
-      .join(' + ');
+    const computed = typeof c.weightedScore === 'number'
+      ? c.weightedScore
+      : computeWeightedScore(c.groupScores, weights);
     const barWidth = Math.min(100, computed);
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td>${c.rank}</td>
-      <td>${c.id}</td>
       <td>
         <div class="score-bar">
           <span style="width:${barWidth.toFixed(1)}%"></span>
@@ -288,9 +286,99 @@ function renderScoreTable(candidates, weights) {
       <td>${formatCell(c.groupScores.G3)}</td>
       <td>${formatCell(c.groupScores.G4)}</td>
       <td>${formatCell(c.groupScores.G5)}</td>
-      <td class="formula" title="${breakdown}">${breakdown}</td>`;
+      <td>${computed.toFixed(2)}%</td>`;
     tbody.appendChild(tr);
   });
+}
+
+function renderSelfEvalPlan(plan) {
+  const container = document.getElementById('self-eval-plan');
+  if (!container || !plan) return;
+
+  const finishDate = plan.studyCompletionBy
+    ? new Date(`${plan.studyCompletionBy}T20:00:00+03:30`)
+    : null;
+  const notes = (plan.notes || [])
+    .map((n) => `<li>${n}</li>`)
+    .join('');
+  const rows = (plan.pastPapers || [])
+    .map((p) => {
+      const date = new Date(`${p.recommendedDate}T09:00:00+03:30`);
+      return `
+        <tr>
+          <td>${p.year}</td>
+          <td>${formatDateTime(date)}</td>
+          <td>${p.focus}</td>
+        </tr>`;
+    })
+    .join('');
+
+  container.innerHTML = `
+    <div class="plan-heading">
+      <h3>Mock cadence using past papers (1404→1390)</h3>
+      <p class="muted">${plan.headline || ''}</p>
+      ${finishDate ? `<p class="eyebrow">Finish first pass by <strong>${formatDateTime(finishDate)}</strong></p>` : ''}
+    </div>
+    <div class="plan-layout">
+      <div>
+        <p class="eyebrow">How to run them</p>
+        <ul class="note-list">${notes}</ul>
+      </div>
+      <div class="table-wrapper">
+        <table class="plan-table">
+          <thead>
+            <tr><th>Past exam</th><th>Suggested date</th><th>Focus</th></tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+    </div>`;
+}
+
+function renderSectionPacing(sections, weights, totalMinutes = 240) {
+  const container = document.getElementById('pacing-table');
+  if (!container || !sections) return;
+  const weightTotals = sections.reduce(
+    (sum, sec) => sum + (sec.questions || 0) * (sec.weight || weights[sec.group] || 1),
+    0,
+  );
+  const rows = sections
+    .map((sec) => {
+      const effectiveWeight = sec.weight || weights[sec.group] || 1;
+      const minutes = weightTotals
+        ? (totalMinutes * sec.questions * effectiveWeight) / weightTotals
+        : totalMinutes / sections.length;
+      const perQuestion = minutes / sec.questions;
+      return `
+        <tr>
+          <td><strong>${sec.section}</strong><br/><span class="muted">${sec.note || ''}</span></td>
+          <td>${sec.numbers || '—'}</td>
+          <td>${sec.questions}</td>
+          <td>×${effectiveWeight}</td>
+          <td>${minutes.toFixed(1)} min</td>
+          <td>${perQuestion.toFixed(2)} min/q</td>
+        </tr>`;
+    })
+    .join('');
+
+  container.innerHTML = `
+    <div class="plan-heading">
+      <h3>Exam-day pacing by section (115 questions, 240 minutes)</h3>
+      <p class="muted">Weighted by section importance and question count; adjust if you bank time from quicker sections.</p>
+    </div>
+    <table class="plan-table">
+      <thead>
+        <tr>
+          <th>Section</th>
+          <th>Q. range</th>
+          <th>#</th>
+          <th>Weight</th>
+          <th>Suggested minutes</th>
+          <th>Minutes per question</th>
+        </tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>`;
 }
 
 function renderBandSummary(bandsData) {
@@ -404,6 +492,8 @@ async function bootstrap() {
     renderCalculator(resources.weights);
     renderSafeRange(resources.safeRanges);
     renderScoreTable(resources.candidateScores, resources.weights);
+    renderSelfEvalPlan(resources.selfEvalPlan);
+    renderSectionPacing(resources.sectionPacing, resources.weights);
     renderBandSummary(bands);
     renderBlockTargets(bands);
     renderWeightedBands(bands);

@@ -60,6 +60,8 @@ This repo is wired so you can keep the countdown in the header **up to date auto
     next page load.
   - **`docs/data/resources.md`** – edit course books/OCW links, playlist mappings, exam weights, or the real candidate table
     and the site will re-render without code changes.
+    - `selfEvalPlan` → suggested dates for running past papers (1404–1390) plus the “finish syllabus by” milestone.
+    - `sectionPacing` → official question counts with a weight-aware time budget per section for the 240-minute exam.
   - **`docs/data/real-ai-results-1404-1403.md`** – the raw table of public AI subgroup results used to seed the score model.
   - **`docs/data/empirical-bands.md`** – JSON + narrative of empirical rank bands, block targets, and the weighted score
     mapping used by the “Empirical bands” panel.

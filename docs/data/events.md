@@ -19,6 +19,20 @@
       "type": "registration"
     },
     {
+      "id": "syllabus-finish",
+      "name": "Finish first pass of all materials",
+      "datetime": "2026-02-15T20:00:00+03:30",
+      "description": "Draft milestone to complete every syllabus topic once before the mock grind",
+      "type": "study"
+    },
+    {
+      "id": "past-paper-cycle",
+      "name": "Begin past-paper self-evals (1404→1390)",
+      "datetime": "2026-03-01T09:00:00+03:30",
+      "description": "Start weekly timed runs of previous exams as self-evaluations",
+      "type": "mock"
+    },
+    {
       "id": "admission-card",
       "name": "Admission card release",
       "datetime": "2026-05-01T12:00:00+03:30",

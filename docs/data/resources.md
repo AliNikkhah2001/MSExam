@@ -374,463 +374,97 @@
       ]
     }
   ],
-  "candidateScores":
-[
-  {
-    "id": "Rank-1",
-    "rank": 1,
-    "groupScores": {
-      "G0": 0.227,
-      "G1": 0.167,
-      "G2": 0.7037,
-      "G3": 0.7333,
-      "G4": 0.3833,
-      "G5": 0.6316
+  "candidateScores": [
+    {
+      "rank": 1,
+      "groupScores": { "G0": 0.227, "G1": 0.167, "G2": 0.7037, "G3": 0.7333, "G4": 0.3833, "G5": 0.6316 },
+      "weightedScore": 55.11
     },
-    "weightedScore": 55.11
+    {
+      "rank": 7,
+      "groupScores": { "G0": 0.0, "G1": 0.318, "G2": 0.4667, "G3": 0.78, "G4": 0.5064, "G5": 0.5569 },
+      "weightedScore": 52.26
+    },
+    {
+      "rank": 11,
+      "groupScores": { "G0": 0.0, "G1": 0.1, "G2": 0.8889, "G3": 0.5, "G4": 0.5333, "G5": 0.2982 },
+      "weightedScore": 45.52
+    },
+    {
+      "rank": 17,
+      "groupScores": { "G0": 0.0, "G1": 0.318, "G2": 0.4334, "G3": 0.4854, "G4": 0.5064, "G5": 0.4935 },
+      "weightedScore": 42.47
+    },
+    {
+      "rank": 21,
+      "groupScores": { "G0": 0.601, "G1": 0.424, "G2": 0.3334, "G3": 0.6066, "G4": 0.4246, "G5": 0.1414 },
+      "weightedScore": 40.99
+    },
+    {
+      "rank": 33,
+      "groupScores": { "G0": 0.0, "G1": 0.0, "G2": 0.1852, "G3": 0.5167, "G4": 0.7167, "G5": 0.6316 },
+      "weightedScore": 39.67
+    },
+    {
+      "rank": 54,
+      "groupScores": { "G0": 0.1472, "G1": 0.583, "G2": 0.4667, "G3": 0.3986, "G4": 0.245, "G5": 0.0951 },
+      "weightedScore": 33.89
+    },
+    {
+      "rank": 64,
+      "groupScores": { "G0": 0.0, "G1": -0.0166, "G2": 0.3333, "G3": 0.5, "G4": 0.55, "G5": 0.5789 },
+      "weightedScore": 38.69
+    },
+    {
+      "rank": 72,
+      "groupScores": { "G0": 0.5766, "G1": 0.0, "G2": 0.4, "G3": 0.3466, "G4": 0.4574, "G5": 0.2282 },
+      "weightedScore": 31.75
+    },
+    {
+      "rank": 88,
+      "groupScores": { "G0": 0.653, "G1": 0.2, "G2": 0.2593, "G3": 0.4667, "G4": 0.1333, "G5": 0.4561 },
+      "weightedScore": 35.55
+    },
+    {
+      "rank": 95,
+      "groupScores": { "G0": 0.84, "G1": 0.367, "G2": 0.2963, "G3": 0.3667, "G4": 0.3333, "G5": 0.2456 },
+      "weightedScore": 35.55
+    }
+  ],
+  "selfEvalPlan": {
+    "studyCompletionBy": "2026-02-15",
+    "headline": "Finish one full pass of the syllabus by mid-February, then enter an 8-week past-paper sprint.",
+    "pastPapers": [
+      { "year": 1404, "recommendedDate": "2026-03-02", "focus": "Baseline self-eval right after first-pass review" },
+      { "year": 1403, "recommendedDate": "2026-03-06", "focus": "Tighten timing and note careless errors" },
+      { "year": 1402, "recommendedDate": "2026-03-10", "focus": "Reinforce DS/Alg/AI pacing" },
+      { "year": 1401, "recommendedDate": "2026-03-13", "focus": "Watch Systems (OS/DB/Networks) timing" },
+      { "year": 1400, "recommendedDate": "2026-03-17", "focus": "Math + Theory stamina" },
+      { "year": 1399, "recommendedDate": "2026-03-20", "focus": "Hardware refresh (logic + arch)" },
+      { "year": 1398, "recommendedDate": "2026-03-24", "focus": "AI search + probability drills" },
+      { "year": 1397, "recommendedDate": "2026-03-27", "focus": "Networking/DB recall under time" },
+      { "year": 1396, "recommendedDate": "2026-03-31", "focus": "Algorithm design & proofs" },
+      { "year": 1395, "recommendedDate": "2026-04-03", "focus": "Signals/transforms quick checks" },
+      { "year": 1394, "recommendedDate": "2026-04-07", "focus": "Operating systems corner cases" },
+      { "year": 1393, "recommendedDate": "2026-04-10", "focus": "Probability & combinatorics redo" },
+      { "year": 1392, "recommendedDate": "2026-04-14", "focus": "Graph/DP mastery" },
+      { "year": 1391, "recommendedDate": "2026-04-17", "focus": "Architecture & caching details" },
+      { "year": 1390, "recommendedDate": "2026-04-21", "focus": "Final dress rehearsal before tapered review" }
+    ],
+    "notes": [
+      "Run each past paper as a full 240-minute simulation with the same break policy you plan for the real exam.",
+      "Record scores in mock-results-schema.csv and compare to the empirical bands.",
+      "Cycle back to weak blocks within 48 hours of each mock while the mistakes are fresh."
+    ]
   },
-  {
-    "id": "Rank-7",
-    "rank": 7,
-    "groupScores": {
-      "G0": 0.0,
-      "G1": 0.318,
-      "G2": 0.4667,
-      "G3": 0.78,
-      "G4": 0.5064,
-      "G5": 0.5569
-    },
-    "weightedScore": 52.26
-  },
-  {
-    "id": "Rank-11",
-    "rank": 11,
-    "groupScores": {
-      "G0": 0.0,
-      "G1": 0.1,
-      "G2": 0.8889,
-      "G3": 0.5,
-      "G4": 0.5333,
-      "G5": 0.2982
-    },
-    "weightedScore": 45.52
-  },
-  {
-    "id": "Rank-17",
-    "rank": 17,
-    "groupScores": {
-      "G0": 0.0,
-      "G1": 0.318,
-      "G2": 0.4334,
-      "G3": 0.4854,
-      "G4": 0.5064,
-      "G5": 0.4935
-    },
-    "weightedScore": 42.47
-  },
-  {
-    "id": "Rank-21",
-    "rank": 21,
-    "groupScores": {
-      "G0": 0.601,
-      "G1": 0.424,
-      "G2": 0.3334,
-      "G3": 0.6066,
-      "G4": 0.4246,
-      "G5": 0.1414
-    },
-    "weightedScore": 40.99
-  },
-  {
-    "id": "Rank-33",
-    "rank": 33,
-    "groupScores": {
-      "G0": 0.0,
-      "G1": 0.0,
-      "G2": 0.1852,
-      "G3": 0.5167,
-      "G4": 0.7167,
-      "G5": 0.6316
-    },
-    "weightedScore": 39.67
-  },
-  {
-    "id": "Rank-54",
-    "rank": 54,
-    "groupScores": {
-      "G0": 0.1472,
-      "G1": 0.583,
-      "G2": 0.4667,
-      "G3": 0.3986,
-      "G4": 0.245,
-      "G5": 0.0951
-    },
-    "weightedScore": 33.89
-  },
-  {
-    "id": "Rank-64",
-    "rank": 64,
-    "groupScores": {
-      "G0": 0.0,
-      "G1": -0.0166,
-      "G2": 0.3333,
-      "G3": 0.5,
-      "G4": 0.55,
-      "G5": 0.5789
-    },
-    "weightedScore": 38.69
-  },
-  {
-    "id": "Rank-72",
-    "rank": 72,
-    "groupScores": {
-      "G0": 0.5766,
-      "G1": 0.0,
-      "G2": 0.4,
-      "G3": 0.3466,
-      "G4": 0.4574,
-      "G5": 0.2282
-    },
-    "weightedScore": 31.75
-  },
-  {
-    "id": "Rank-88",
-    "rank": 88,
-    "groupScores": {
-      "G0": 0.653,
-      "G1": 0.2,
-      "G2": 0.2593,
-      "G3": 0.4667,
-      "G4": 0.1333,
-      "G5": 0.4561
-    },
-    "weightedScore": 35.55
-  },
-  {
-    "id": "Rank-95",
-    "rank": 95,
-    "groupScores": {
-      "G0": 0.84,
-      "G1": 0.367,
-      "G2": 0.2963,
-      "G3": 0.3667,
-      "G4": 0.3333,
-      "G5": 0.2456
-    },
-    "weightedScore": 35.55
-  },
-  {
-    "id": "Rank-106",
-    "rank": 106,
-    "groupScores": {
-      "G0": 0.2454,
-      "G1": 0.0883,
-      "G2": 0.3,
-      "G3": 0.5546,
-      "G4": 0.1634,
-      "G5": 0.1522
-    },
-    "weightedScore": 28.83
-  },
-  {
-    "id": "Rank-127",
-    "rank": 127,
-    "groupScores": {
-      "G0": 0.0,
-      "G1": 0.053,
-      "G2": 0.0667,
-      "G3": 0.52,
-      "G4": 0.441,
-      "G5": 0.2829
-    },
-    "weightedScore": 27.45
-  },
-  {
-    "id": "Rank-143",
-    "rank": 143,
-    "groupScores": {
-      "G0": 0.0,
-      "G1": 0.133,
-      "G2": 0.3333,
-      "G3": 0.3833,
-      "G4": 0.5667,
-      "G5": 0.2982
-    },
-    "weightedScore": 32.18
-  },
-  {
-    "id": "Rank-155",
-    "rank": 155,
-    "groupScores": {
-      "G0": 0.48,
-      "G1": 0.0,
-      "G2": 0.2222,
-      "G3": 0.2833,
-      "G4": 0.65,
-      "G5": 0.386
-    },
-    "weightedScore": 31.59
-  },
-  {
-    "id": "Rank-170",
-    "rank": 170,
-    "groupScores": {
-      "G0": 0.5152,
-      "G1": 0.0353,
-      "G2": 0.1333,
-      "G3": 0.104,
-      "G4": 0.735,
-      "G5": 0.3031
-    },
-    "weightedScore": 25.21
-  },
-  {
-    "id": "Rank-194",
-    "rank": 194,
-    "groupScores": {
-      "G0": 0.0,
-      "G1": -0.0332,
-      "G2": 0.2222,
-      "G3": 0.4333,
-      "G4": 0.4833,
-      "G5": 0.3509
-    },
-    "weightedScore": 29.02
-  },
-  {
-    "id": "Rank-212",
-    "rank": 212,
-    "groupScores": {
-      "G0": 0.107,
-      "G1": 0.0,
-      "G2": 0.3333,
-      "G3": 0.4667,
-      "G4": 0.3167,
-      "G5": 0.2456
-    },
-    "weightedScore": 28.96
-  },
-  {
-    "id": "Rank-232",
-    "rank": 232,
-    "groupScores": {
-      "G0": 0.0,
-      "G1": -0.0176,
-      "G2": 0.4,
-      "G3": 0.104,
-      "G4": 0.3756,
-      "G5": 0.3638
-    },
-    "weightedScore": 22.82
-  },
-  {
-    "id": "Rank-246",
-    "rank": 246,
-    "groupScores": {
-      "G0": 0.0,
-      "G1": 0.0,
-      "G2": 0.2667,
-      "G3": 0.1734,
-      "G4": 0.3594,
-      "G5": 0.3804
-    },
-    "weightedScore": 22.36
-  },
-  {
-    "id": "Rank-253",
-    "rank": 253,
-    "groupScores": {
-      "G0": 0.0933,
-      "G1": 0.133,
-      "G2": 0.0741,
-      "G3": 0.1167,
-      "G4": 0.5667,
-      "G5": 0.5439
-    },
-    "weightedScore": 25.42
-  },
-  {
-    "id": "Rank-268",
-    "rank": 268,
-    "groupScores": {
-      "G0": 0.0,
-      "G1": 0.0,
-      "G2": 0.3333,
-      "G3": 0.2,
-      "G4": 0.3833,
-      "G5": 0.386
-    },
-    "weightedScore": 24.83
-  },
-  {
-    "id": "Rank-299",
-    "rank": 299,
-    "groupScores": {
-      "G0": 0.787,
-      "G1": 0.1,
-      "G2": 0.3333,
-      "G3": 0.1167,
-      "G4": 0.25,
-      "G5": 0.2632
-    },
-    "weightedScore": 24.96
-  },
-  {
-    "id": "Rank-314",
-    "rank": 314,
-    "groupScores": {
-      "G0": 0.0,
-      "G1": 0.0,
-      "G2": 0.2,
-      "G3": 0.0346,
-      "G4": 0.441,
-      "G5": 0.485
-    },
-    "weightedScore": 20.5
-  },
-  {
-    "id": "Rank-338",
-    "rank": 338,
-    "groupScores": {
-      "G0": 0.0933,
-      "G1": 0.4,
-      "G2": 0.0741,
-      "G3": 0.35,
-      "G4": 0.0833,
-      "G5": 0.2982
-    },
-    "weightedScore": 23.85
-  },
-  {
-    "id": "Rank-355",
-    "rank": 355,
-    "groupScores": {
-      "G0": 0.0,
-      "G1": 0.0,
-      "G2": 0.2222,
-      "G3": 0.2333,
-      "G4": 0.4667,
-      "G5": 0.3158
-    },
-    "weightedScore": 23.2
-  },
-  {
-    "id": "Rank-374",
-    "rank": 374,
-    "groupScores": {
-      "G0": 0.1594,
-      "G1": 0.0,
-      "G2": 0.1667,
-      "G3": 0.156,
-      "G4": 0.3104,
-      "G5": 0.3233
-    },
-    "weightedScore": 19.16
-  },
-  {
-    "id": "Rank-385",
-    "rank": 385,
-    "groupScores": {
-      "G0": 0.0,
-      "G1": 0.0,
-      "G2": 0.0,
-      "G3": 0.2774,
-      "G4": 0.3266,
-      "G5": 0.3593
-    },
-    "weightedScore": 18.94
-  },
-  {
-    "id": "Rank-405",
-    "rank": 405,
-    "groupScores": {
-      "G0": 0.0368,
-      "G1": 0.0,
-      "G2": -0.0666,
-      "G3": 0.2254,
-      "G4": 0.5064,
-      "G5": 0.3436
-    },
-    "weightedScore": 18.55
-  },
-  {
-    "id": "Rank-429",
-    "rank": 429,
-    "groupScores": {
-      "G0": 0.0667,
-      "G1": 0.0,
-      "G2": 0.1481,
-      "G3": 0.3667,
-      "G4": 0.1333,
-      "G5": 0.2982
-    },
-    "weightedScore": 20.93
-  },
-  {
-    "id": "Rank-457",
-    "rank": 457,
-    "groupScores": {
-      "G0": 0.12,
-      "G1": 0.0,
-      "G2": 0.2963,
-      "G3": 0.1667,
-      "G4": 0.3167,
-      "G5": 0.3333
-    },
-    "weightedScore": 22.06
-  },
-  {
-    "id": "Rank-489",
-    "rank": 489,
-    "groupScores": {
-      "G0": 0.08,
-      "G1": 0.0333,
-      "G2": 0.0741,
-      "G3": 0.2167,
-      "G4": 0.3667,
-      "G5": 0.3333
-    },
-    "weightedScore": 19.79
-  },
-  {
-    "id": "Rank-539",
-    "rank": 539,
-    "groupScores": {
-      "G0": 0.0,
-      "G1": 0.0,
-      "G2": 0.0333,
-      "G3": 0.2946,
-      "G4": 0.3756,
-      "G5": 0.1414
-    },
-    "weightedScore": 16.36
-  },
-  {
-    "id": "Rank-580",
-    "rank": 580,
-    "groupScores": {
-      "G0": 0.08,
-      "G1": 0.05,
-      "G2": 0.0,
-      "G3": 0.3167,
-      "G4": 0.25,
-      "G5": 0.2807
-    },
-    "weightedScore": 18.59
-  },
-  {
-    "id": "Rank-627",
-    "rank": 627,
-    "groupScores": {
-      "G0": 0.213,
-      "G1": 0.0333,
-      "G2": 0.0741,
-      "G3": 0.3167,
-      "G4": 0.3167,
-      "G5": 0.1579
-    },
-    "weightedScore": 19.17
-  }
-]
+  "sectionPacing": [
+    { "section": "English language", "numbers": "1–15", "questions": 15, "group": "G0", "weight": 1, "note": "Bonus scoring; keep it crisp" },
+    { "section": "Math (calc/eng math/probability/discrete)", "numbers": "16–35", "questions": 20, "group": "G1", "weight": 2, "note": "Even pacing; avoid long derivations" },
+    { "section": "Programming + DS/Algorithms", "numbers": "36–55", "questions": 20, "group": "G3", "weight": 4, "note": "Highest leverage with AI" },
+    { "section": "DB / OS / Networks", "numbers": "56–70", "questions": 15, "group": "G5", "weight": 3, "note": "Concept recall and definitions" },
+    { "section": "Artificial Intelligence", "numbers": "71–80", "questions": 10, "group": "G3", "weight": 4, "note": "Search, heuristics, CSPs" },
+    { "section": "Computer Architecture & Digital Logic", "numbers": "81–95", "questions": 15, "group": "G4", "weight": 2, "note": "Pipeline/control quick math" },
+    { "section": "Computational Intelligence & Machine Learning", "numbers": "96–115", "questions": 20, "group": "G3", "weight": 4, "note": "Learning curves + ML intuition" }
+  ]
 }
 ```

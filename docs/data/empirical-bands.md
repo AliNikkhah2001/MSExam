@@ -3,9 +3,9 @@
 ```json
 {
   "summary": {
-    "note": "Real AI subgroup sample (~35 candidates). Observed patterns only; not guarantees.",
+    "note": "Real AI subgroup sample (top-100 ranks only, 11 candidates). Observed patterns only; not guarantees.",
     "weights": "1*L + 2*M + 3*T + 4*A + 2*H + 3*S",
-    "population": 35
+    "population": 11
   },
   "formula": "(1*L + 2*M + 3*T + 4*A + 2*H + 3*S) / 15",
   "bands": [
@@ -56,45 +56,19 @@
         "S": { "avg": 37, "range": "10–63%" },
         "W": { "avg": 36, "range": "32–40%" }
       }
-    },
-    {
-      "id": "D",
-      "label": "Band D – ranks 101–300",
-      "range": "101–300",
-      "sampleSize": 12,
-      "description": "Lower mid-band from the sample.",
-      "metrics": {
-        "W": { "avg": 27, "range": "22–32%" }
-      }
-    },
-    {
-      "id": "E",
-      "label": "Band E – ranks 301–700",
-      "range": "301–700",
-      "sampleSize": 12,
-      "description": "Long tail of the sample.",
-      "metrics": {
-        "W": { "avg": 20, "range": "16–24%" }
-      }
     }
   ],
   "weightedBands": [
     { "range": "1–10", "score": "≥52%", "note": "Behaves like ranks 1–10 in this sample" },
     { "range": "10–30", "score": "45–52%", "note": "Typical of ranks 10–30" },
-    { "range": "30–100", "score": "38–45%", "note": "Typical of ranks 30–100" },
-    { "range": "100–300", "score": "28–38%", "note": "Typical of ranks 100–300" },
-    { "range": "300–700", "score": "20–28%", "note": "Typical of ranks 300–700" }
+    { "range": "30–100", "score": "38–45%", "note": "Typical of ranks 30–100" }
   ],
   "blockTargets": [
     {
       "block": "A",
       "name": "DS/Alg/AI block",
       "weight": 4,
-      "bands": {
-        "A": "73–78% (avg ~76%)",
-        "B": "49–61% (avg ~53%)",
-        "C": "35–52% (avg ~43%)"
-      },
+      "bands": { "A": "73–78% (avg ~76%)", "B": "49–61% (avg ~53%)", "C": "35–52% (avg ~43%)" },
       "targets": [
         "Aim for ≥70% to mimic top-10 sample",
         "≥55–60% for a stable 11–30 shot",
@@ -105,11 +79,7 @@
       "block": "T",
       "name": "Theory & Signals",
       "weight": 3,
-      "bands": {
-        "A": "47–70% (avg ~59%)",
-        "B": "33–89% (avg ~55%)",
-        "C": "19–47% (avg ~32%)"
-      },
+      "bands": { "A": "47–70% (avg ~59%)", "B": "33–89% (avg ~55%)", "C": "19–47% (avg ~32%)" },
       "targets": [
         "≥50% to sit comfortably in top 30",
         "55–60%+ aligns with the top-10 sample"
@@ -119,11 +89,7 @@
       "block": "S",
       "name": "Systems (OS/Networks/DB)",
       "weight": 3,
-      "bands": {
-        "A": "56–63% (avg ~59%)",
-        "B": "14–49% (avg ~31%)",
-        "C": "10–63% (avg ~37%)"
-      },
+      "bands": { "A": "56–63% (avg ~59%)", "B": "14–49% (avg ~31%)", "C": "10–63% (avg ~37%)" },
       "targets": [
         "≥50–55% for a balanced high-rank profile",
         "30–40% still works for 11–30 if A/T are strong"
@@ -133,11 +99,7 @@
       "block": "M",
       "name": "Math",
       "weight": 2,
-      "bands": {
-        "A": "17–32% (avg ~24%)",
-        "B": "10–42% (avg ~28%)",
-        "C": "-2–58% (avg ~19%)"
-      },
+      "bands": { "A": "17–32% (avg ~24%)", "B": "10–42% (avg ~28%)", "C": "-2–58% (avg ~19%)" },
       "targets": [
         "Top-30 planning: 20–30%",
         "Extra safety: 30–40%"
@@ -147,11 +109,7 @@
       "block": "L",
       "name": "Language",
       "weight": 1,
-      "bands": {
-        "A": "0–23% (avg ~11%)",
-        "B": "0–60% (avg ~20%)",
-        "C": "0–84% (avg ~37%)"
-      },
+      "bands": { "A": "0–23% (avg ~11%)", "B": "0–60% (avg ~20%)", "C": "0–84% (avg ~37%)" },
       "targets": [
         "Treat as bonus; 20–30% is usually sufficient"
       ]
@@ -160,26 +118,20 @@
       "block": "H",
       "name": "Hardware (logic + architecture)",
       "weight": 2,
-      "bands": {
-        "A": "38–51% (avg ~44%)",
-        "B": "42–53% (avg ~49%)",
-        "C": "13–72% (avg ~41%)"
-      },
+      "bands": { "A": "38–51% (avg ~44%)", "B": "42–53% (avg ~49%)", "C": "13–72% (avg ~41%)" },
       "targets": [
         "Top-30 planning: 40–50%",
         "Scores below ~30% show up more often in lower bands"
       ]
     }
   ],
-  "mockSchema": {
-    "download": "./data/mock-results-schema.csv"
-  }
+  "mockSchema": { "download": "./data/mock-results-schema.csv" }
 }
 ```
 
 > ⚠️ Important
 >
-> - The sample has **~35 candidates**, not the full population.
+> - The sample uses **11 candidates (ranks 1–100)**, not the full population.
 > - Bands below are **observed patterns**, not guarantees.
 > - Treat them as **targets for planning**, not strict cut-offs.
 
@@ -192,8 +144,6 @@ From the sample we grouped candidates into:
 - **Band A – ranks 1–10** (2 candidates in our data: ranks 1 and 7)
 - **Band B – ranks 11–30** (3 candidates: ranks 11, 17, 21)
 - **Band C – ranks 31–100** (6 candidates: ranks 33, 54, 64, 72, 88, 95)
-- **Band D – ranks 101–300** (12 candidates)
-- **Band E – ranks 301–700** (12 candidates)
 
 For each band we computed:
 
@@ -364,15 +314,11 @@ Using the weight model:
 - Band A (1–10): **W ≈ 52–55%**, avg ~54%
 - Band B (11–30): **W ≈ 41–46%**, avg ~43%
 - Band C (31–100): **W ≈ 32–40%**, avg ~36%
-- Band D (101–300): **W ≈ 22–32%**, avg ~27%
-- Band E (301–700): **W ≈ 16–24%**, avg ~20%
 
 **Heuristic mapping (planning use only):**
 
 - **W ≥ 52%** → behaves like **ranks 1–10** in this sample.  
 - **W 45–52%** → typical of **ranks 10–30**.  
-- **W 38–45%** → typical of **ranks 30–100**.  
-- **W 28–38%** → typical of **ranks 100–300**.  
-- **W 20–28%** → typical of **ranks 300–700**.
+- **W 38–45%** → typical of **ranks 30–100**.
 
 You can plug your own mock exam results into these bands to see roughly where you stand, then adjust your study focus accordingly.

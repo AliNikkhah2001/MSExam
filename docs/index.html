@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI M.Sc Konkur 1405 – Exam Guide</title>
+  <link rel="stylesheet" href="./assets/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap"
+    rel="stylesheet"
+  />
+</head>
+<body>
+  <header class="hero">
+    <div class="hero__content">
+      <p class="eyebrow">AI M.Sc Konkur 1405</p>
+      <h1>One-stop timeline, resources, and scoring model</h1>
+      <p class="lede">
+        Live countdowns, a visual event roadmap, curated study resources with book covers, and a score model you can
+        tweak—all powered by the markdown data files in <code>docs/data</code>.
+      </p>
+      <div class="badges">
+        <span class="badge">Dynamic data from Markdown</span>
+        <span class="badge badge--accent">Timezone: Asia/Tehran</span>
+      </div>
+    </div>
+    <div class="hero__clock" id="next-event-clock">
+      <p class="label">Countdown to next milestone</p>
+      <div class="clock__time" id="next-event-time">--:--:--</div>
+      <p class="clock__label" id="next-event-label">Loading events…</p>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="panel" id="countdown-panel">
+      <div class="panel__header">
+        <div>
+          <p class="eyebrow">Countdowns</p>
+          <h2>Stay on pace for every critical date</h2>
+        </div>
+        <p class="panel__hint">Edit <code>docs/data/events.md</code> to update all counters automatically.</p>
+      </div>
+      <div class="countdown-grid" id="countdown-grid"></div>
+    </section>
+
+    <section class="panel" id="timeline-panel">
+      <div class="panel__header">
+        <div>
+          <p class="eyebrow">Roadmap</p>
+          <h2>Visual timeline of registration, exam days, and results</h2>
+        </div>
+        <p class="panel__hint">Events are rendered dynamically from the Markdown data file—no code changes required.</p>
+      </div>
+      <div class="timeline" id="timeline"></div>
+    </section>
+
+    <section class="panel" id="resources-panel">
+      <div class="panel__header">
+        <div>
+          <p class="eyebrow">Courses & sources</p>
+          <h2>Books, OCW lectures, and study focus by group</h2>
+        </div>
+        <p class="panel__hint">Book covers load from public sources; add or swap resources in <code>docs/data/resources.md</code>.</p>
+      </div>
+      <div class="weight-legend" id="weight-legend"></div>
+      <div class="course-grid" id="course-grid"></div>
+    </section>
+
+    <section class="panel" id="score-panel">
+      <div class="panel__header">
+        <div>
+          <p class="eyebrow">Score model</p>
+          <h2>Calculate weighted scores and benchmark against last exam</h2>
+        </div>
+        <p class="panel__hint">Weights, safe ranges, and historical candidates are all Markdown-driven.</p>
+      </div>
+      <div class="score-layout">
+        <div class="calculator" id="calculator"></div>
+        <div class="safe-range" id="safe-range"></div>
+      </div>
+      <div class="table-wrapper">
+        <div class="table-header">
+          <h3>How last year\'s top 50 performed (weighted model)</h3>
+          <p class="panel__hint">Use this to sanity-check your own targets.</p>
+        </div>
+        <table class="score-table" id="score-table">
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>ID</th>
+              <th>Weighted %</th>
+              <th>G0</th>
+              <th>G1</th>
+              <th>G2</th>
+              <th>G3</th>
+              <th>G4</th>
+              <th>G5</th>
+              <th>Score formula</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Built for transparent preparation of the AI M.Sc Konkur 1405. Update Markdown files, push to GitHub Pages, and the site refreshes automatically.</p>
+  </footer>
+
+  <script src="./assets/main.js"></script>
+</body>
+</html>

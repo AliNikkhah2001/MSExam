@@ -10,6 +10,27 @@
     "G4": 2,
     "G5": 3
   },
+  "weightingDisplay": {
+    "title": "AI subgroup (Computer Engineering) weights",
+    "subtitle": "115 questions, 240 minutes — time and score weight by coefficient.",
+    "groups": [
+      { "code": "G0", "subjects": "English language", "weight": 1 },
+      { "code": "G1", "subjects": "Engineering Math, Diff Eq, Prob/Stats, Discrete", "weight": 2 },
+      { "code": "G2", "subjects": "Theory of Languages & Automata, Signals & Systems", "weight": 3 },
+      { "code": "G3", "subjects": "Data Structures, Algorithms, Artificial Intelligence", "weight": 4 },
+      { "code": "G4", "subjects": "Digital Logic, Computer Architecture, Digital Electronics", "weight": 2 },
+      { "code": "G5", "subjects": "Operating Systems, Computer Networks, Databases", "weight": 3 }
+    ],
+    "targetProfile": {
+      "title": "Target profile for top performance (aggressive but realistic)",
+      "items": [
+        { "group": "G3 and G5", "target": "80–95%" },
+        { "group": "G2 and G4", "target": "70–90%" },
+        { "group": "G1", "target": "40–60%" },
+        { "group": "G0 (English)", "target": "70–90%" }
+      ]
+    }
+  },
   "safeRanges": {
     "featured": {
       "title": "Top sample (ranks 1–10, model)",
@@ -479,7 +500,7 @@
       "numbers": "46–55",
       "questions": 10,
       "group": "G2",
-      "weight": 2,
+      "weight": 3,
       "note": "Theory of languages/machines + signals/systems; quick eliminations beat long proofs."
     },
     {
@@ -495,7 +516,7 @@
       "numbers": "76–95",
       "questions": 20,
       "group": "G4",
-      "weight": 3,
+      "weight": 2,
       "note": "Circuits, FSMs, datapath/control — mind the arithmetic and timing diagrams."
     },
     {

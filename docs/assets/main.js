@@ -335,7 +335,7 @@ function renderSelfEvalPlan(plan) {
     </div>`;
 }
 
-function renderSectionPacing(sections, weights, totalMinutes = 240) {
+function renderSectionPacing(sections, weights, weightingDisplay, totalMinutes = 240) {
   const container = document.getElementById('pacing-table');
   if (!container || !sections) return;
   const weightTotals = sections.reduce((sum, sec) => {
@@ -343,6 +343,19 @@ function renderSectionPacing(sections, weights, totalMinutes = 240) {
     return sum + (sec.questions || 0) * effectiveWeight;
   }, 0);
   let cursor = 0;
+  const weightingRows = (weightingDisplay?.groups || [])
+    .map(
+      (g) => `
+        <tr>
+          <td><strong>${g.code}</strong></td>
+          <td>${g.subjects}</td>
+          <td>×${g.weight}</td>
+        </tr>`
+    )
+    .join('');
+  const targetBadges = (weightingDisplay?.targetProfile?.items || [])
+    .map((item) => `<span class="target-badge"><strong>${item.group}</strong>: ${item.target}</span>`)
+    .join('');
   const rows = sections
     .map((sec) => {
       const effectiveWeight = sec.weight || weights[sec.group] || 1;
@@ -374,6 +387,26 @@ function renderSectionPacing(sections, weights, totalMinutes = 240) {
       <h3>Exam-day pacing by section (115 questions, 240 minutes)</h3>
       <p class="muted">Time per section is proportional to (questions × coefficient), matching the official weights and keeping math ≈2× language per question.</p>
     </div>
+    ${weightingRows
+      ? `<div class="weighting-flex">
+          <div class="weighting-card">
+            <p class="eyebrow">${weightingDisplay?.title || 'Group weights'}</p>
+            <h4>For the AI subgroup of Computer Engineering</h4>
+            <p class="muted">${weightingDisplay?.subtitle || ''}</p>
+            <table class="weighting-table">
+              <thead><tr><th>Group</th><th>Subjects</th><th>Weight</th></tr></thead>
+              <tbody>${weightingRows}</tbody>
+            </table>
+          </div>
+          ${targetBadges
+            ? `<div class="weighting-card">
+                <p class="eyebrow">${weightingDisplay?.targetProfile?.title || 'Targets'}</p>
+                <h4>Suggested mock targets</h4>
+                <div class="target-badges">${targetBadges}</div>
+              </div>`
+            : ''}
+        </div>`
+      : ''}
     <table class="plan-table">
       <thead>
         <tr>
@@ -503,7 +536,7 @@ async function bootstrap() {
     renderSafeRange(resources.safeRanges);
     renderScoreTable(resources.candidateScores, resources.weights);
     renderSelfEvalPlan(resources.selfEvalPlan);
-    renderSectionPacing(resources.sectionPacing, resources.weights);
+    renderSectionPacing(resources.sectionPacing, resources.weights, resources.weightingDisplay);
     renderBandSummary(bands);
     renderBlockTargets(bands);
     renderWeightedBands(bands);

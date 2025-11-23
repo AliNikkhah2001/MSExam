@@ -338,25 +338,33 @@ function renderSelfEvalPlan(plan) {
 function renderSectionPacing(sections, weights, totalMinutes = 240) {
   const container = document.getElementById('pacing-table');
   if (!container || !sections) return;
-  const weightTotals = sections.reduce(
-    (sum, sec) => sum + (sec.questions || 0) * (sec.weight || weights[sec.group] || 1),
-    0,
-  );
+  const weightTotals = sections.reduce((sum, sec) => {
+    const effectiveWeight = sec.weight || weights[sec.group] || 1;
+    return sum + (sec.questions || 0) * effectiveWeight;
+  }, 0);
+  let cursor = 0;
   const rows = sections
     .map((sec) => {
       const effectiveWeight = sec.weight || weights[sec.group] || 1;
+      const weightedUnits = (sec.questions || 0) * effectiveWeight;
+      const share = weightTotals ? (weightedUnits / weightTotals) * 100 : 0;
       const minutes = weightTotals
-        ? (totalMinutes * sec.questions * effectiveWeight) / weightTotals
+        ? (totalMinutes * weightedUnits) / weightTotals
         : totalMinutes / sections.length;
-      const perQuestion = minutes / sec.questions;
+      const perQuestion = sec.questions ? minutes / sec.questions : 0;
+      const startWindow = cursor;
+      const endWindow = cursor + minutes;
+      cursor = endWindow;
       return `
         <tr>
           <td><strong>${sec.section}</strong><br/><span class="muted">${sec.note || ''}</span></td>
           <td>${sec.numbers || '—'}</td>
           <td>${sec.questions}</td>
           <td>×${effectiveWeight}</td>
+          <td>${share.toFixed(1)}%</td>
           <td>${minutes.toFixed(1)} min</td>
           <td>${perQuestion.toFixed(2)} min/q</td>
+          <td>${startWindow.toFixed(0)} – ${endWindow.toFixed(0)} min</td>
         </tr>`;
     })
     .join('');
@@ -364,7 +372,7 @@ function renderSectionPacing(sections, weights, totalMinutes = 240) {
   container.innerHTML = `
     <div class="plan-heading">
       <h3>Exam-day pacing by section (115 questions, 240 minutes)</h3>
-      <p class="muted">Weighted by section importance and question count; adjust if you bank time from quicker sections.</p>
+      <p class="muted">Time per section is proportional to (questions × coefficient), matching the official weights and keeping math ≈2× language per question.</p>
     </div>
     <table class="plan-table">
       <thead>
@@ -373,8 +381,10 @@ function renderSectionPacing(sections, weights, totalMinutes = 240) {
           <th>Q. range</th>
           <th>#</th>
           <th>Weight</th>
+          <th>Score share</th>
           <th>Suggested minutes</th>
           <th>Minutes per question</th>
+          <th>Suggested exam window</th>
         </tr>
       </thead>
       <tbody>${rows}</tbody>

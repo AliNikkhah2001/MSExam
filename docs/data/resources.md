@@ -458,13 +458,54 @@
     ]
   },
   "sectionPacing": [
-    { "section": "English language", "numbers": "1–15", "questions": 15, "group": "G0", "weight": 1, "note": "Bonus scoring; keep it crisp" },
-    { "section": "Math (calc/eng math/probability/discrete)", "numbers": "16–35", "questions": 20, "group": "G1", "weight": 2, "note": "Even pacing; avoid long derivations" },
-    { "section": "Programming + DS/Algorithms", "numbers": "36–55", "questions": 20, "group": "G3", "weight": 4, "note": "Highest leverage with AI" },
-    { "section": "DB / OS / Networks", "numbers": "56–70", "questions": 15, "group": "G5", "weight": 3, "note": "Concept recall and definitions" },
-    { "section": "Artificial Intelligence", "numbers": "71–80", "questions": 10, "group": "G3", "weight": 4, "note": "Search, heuristics, CSPs" },
-    { "section": "Computer Architecture & Digital Logic", "numbers": "81–95", "questions": 15, "group": "G4", "weight": 2, "note": "Pipeline/control quick math" },
-    { "section": "Computational Intelligence & Machine Learning", "numbers": "96–115", "questions": 20, "group": "G3", "weight": 4, "note": "Learning curves + ML intuition" }
+    {
+      "section": "English (General + Technical)",
+      "numbers": "1–25",
+      "questions": 25,
+      "group": "G0",
+      "weight": 1,
+      "note": "Light but fast — keep the flow and avoid overthinking vocabulary traps."
+    },
+    {
+      "section": "Mathematics",
+      "numbers": "26–45",
+      "questions": 20,
+      "group": "G1",
+      "weight": 2,
+      "note": "Calculus I&II, probability/statistics, discrete — aim for clean setups and avoid long derivations."
+    },
+    {
+      "section": "Specialised 1 – Theory & Signals",
+      "numbers": "46–55",
+      "questions": 10,
+      "group": "G2",
+      "weight": 2,
+      "note": "Theory of languages/machines + signals/systems; quick eliminations beat long proofs."
+    },
+    {
+      "section": "Specialised 2 – DS, Algorithms, AI",
+      "numbers": "56–75",
+      "questions": 20,
+      "group": "G3",
+      "weight": 4,
+      "note": "Highest leverage block; protect time for graph/DP and AI reasoning."
+    },
+    {
+      "section": "Specialised 3 – Logic, Architecture, Digital",
+      "numbers": "76–95",
+      "questions": 20,
+      "group": "G4",
+      "weight": 3,
+      "note": "Circuits, FSMs, datapath/control — mind the arithmetic and timing diagrams."
+    },
+    {
+      "section": "Specialised 4 – OS, Networks, DB",
+      "numbers": "96–115",
+      "questions": 20,
+      "group": "G5",
+      "weight": 3,
+      "note": "Concept-heavy; bank time by recalling definitions and common patterns quickly."
+    }
   ]
 }
 ```

@@ -79,7 +79,7 @@ This repo is wired so you can keep the countdown in the header **up to date auto
 
 ### Admin checklist
 
-- [ ] Create / confirm account on **sanjesh.org**.
+- [x] Create / confirm account on **sanjesh.org**.
 - [ ] Set two calendar reminders: **start** and **end** of registration window.
 - [ ] Download and read the **official 1405 brochure** once it is published.
 - [ ] Decide whether to choose any **second (شناور) field**.

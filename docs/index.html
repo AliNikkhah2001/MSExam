@@ -18,7 +18,10 @@
   <link rel="stylesheet" href="./assets/style.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap"
+    rel="stylesheet"
+  />
 </head>
 <body>
   <header class="hero">
@@ -72,7 +75,19 @@
         </div>
         <p class="panel__hint">Book covers load from public sources; add or swap resources in <code>docs/data/resources.md</code>.</p>
       </div>
+      <div class="weight-legend" id="weight-legend"></div>
       <div class="course-grid" id="course-grid"></div>
+    </section>
+
+    <section class="panel" id="tracks-panel">
+      <div class="panel__header">
+        <div>
+          <p class="eyebrow">OCW playlists</p>
+          <h2>Chapter-by-chapter playlists and mappings</h2>
+        </div>
+        <p class="panel__hint">Rendered from the <code>studyTracks</code> section inside <code>docs/data/resources.md</code>.</p>
+      </div>
+      <div class="study-grid" id="study-tracks"></div>
     </section>
 
     <section class="panel" id="score-panel">
@@ -81,7 +96,7 @@
           <p class="eyebrow">Score model</p>
           <h2>Calculate weighted scores and benchmark against last exam</h2>
         </div>
-        <p class="panel__hint">Weights, safe ranges, and historical candidates are all Markdown-driven.</p>
+        <p class="panel__hint">Weights, safe ranges, and historical candidates are all Markdown-driven. Real AI subgroup rows live in <code>docs/data/real-ai-results-1404-1403.md</code>.</p>
       </div>
       <div class="score-layout">
         <div class="calculator" id="calculator"></div>
@@ -89,14 +104,13 @@
       </div>
       <div class="table-wrapper">
         <div class="table-header">
-          <h3>How last year\'s top 50 performed (weighted model)</h3>
-          <p class="panel__hint">Use this to sanity-check your own targets.</p>
+          <h3>How 1404–1403 AI candidates performed (weighted model)</h3>
+          <p class="panel__hint">Top-100 subset from the public table; use this to sanity-check your own targets.</p>
         </div>
         <table class="score-table" id="score-table">
           <thead>
             <tr>
               <th>Rank</th>
-              <th>ID</th>
               <th>Weighted %</th>
               <th>G0</th>
               <th>G1</th>
@@ -104,10 +118,52 @@
               <th>G3</th>
               <th>G4</th>
               <th>G5</th>
+              <th>Final weighted score</th>
             </tr>
           </thead>
           <tbody></tbody>
         </table>
+      </div>
+    </section>
+
+    <section class="panel" id="self-eval-panel">
+      <div class="panel__header">
+        <div>
+          <p class="eyebrow">Past-paper plan</p>
+          <h2>Timeline for 1404→1390 self-evaluation mocks</h2>
+        </div>
+        <p class="panel__hint">Suggested dates and notes pull from <code>selfEvalPlan</code> in <code>docs/data/resources.md</code>.</p>
+      </div>
+      <div id="self-eval-plan"></div>
+    </section>
+
+    <section class="panel" id="pacing-panel">
+      <div class="panel__header">
+        <div>
+          <p class="eyebrow">Exam pacing</p>
+          <h2>Question counts, weights, and time budget per section</h2>
+        </div>
+        <p class="panel__hint">Numbers reflect the 115-question, 240-minute format shown in the official brochure.</p>
+      </div>
+      <div id="pacing-table"></div>
+    </section>
+
+    <section class="panel" id="bands-panel">
+      <div class="panel__header">
+        <div>
+          <p class="eyebrow">Empirical bands</p>
+          <h2>Real 1404–1403 sample bands & mock planner</h2>
+        </div>
+        <p class="panel__hint">
+          Pulled from <code>docs/data/empirical-bands.md</code> and the raw rows in
+          <code>docs/data/real-ai-results-1404-1403.md</code>.
+        </p>
+      </div>
+      <div class="band-grid" id="band-grid"></div>
+      <div class="band-layout">
+        <div class="band-column" id="weighted-bands"></div>
+        <div class="band-column band-column--wide" id="block-targets"></div>
+        <div class="band-column" id="formula-card"></div>
       </div>
     </section>
   </main>

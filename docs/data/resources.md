@@ -10,24 +10,47 @@
     "G4": 2,
     "G5": 3
   },
+  "weightingDisplay": {
+    "title": "AI subgroup (Computer Engineering) weights",
+    "subtitle": "115 questions, 240 minutes — time and score weight by coefficient.",
+    "groups": [
+      { "code": "G0", "subjects": "English language", "weight": 1 },
+      { "code": "G1", "subjects": "Engineering Math, Diff Eq, Prob/Stats, Discrete", "weight": 2 },
+      { "code": "G2", "subjects": "Theory of Languages & Automata, Signals & Systems", "weight": 3 },
+      { "code": "G3", "subjects": "Data Structures, Algorithms, Artificial Intelligence", "weight": 4 },
+      { "code": "G4", "subjects": "Digital Logic, Computer Architecture, Digital Electronics", "weight": 2 },
+      { "code": "G5", "subjects": "Operating Systems, Computer Networks, Databases", "weight": 3 }
+    ],
+    "targetProfile": {
+      "title": "Target profile for top performance (aggressive but realistic)",
+      "items": [
+        { "group": "G3 and G5", "target": "80–95%" },
+        { "group": "G2 and G4", "target": "70–90%" },
+        { "group": "G1", "target": "40–60%" },
+        { "group": "G0 (English)", "target": "70–90%" }
+      ]
+    }
+  },
   "safeRanges": {
-    "top3": {
-      "targetWeighted": "\u224891%+",
-      "confidence": "Plan for 91\u201393% weighted to stay in the safety zone for ranks 1\u20133 based on last-year spread.",
+    "featured": {
+      "title": "Top sample (ranks 1–10, model)",
+      "targetWeighted": "≈52–55% (model, not official)",
+      "confidence": "Derived from the 1404–1403 AI subgroup sample with weights 1–2–3–4–2–3; guidance only, not guarantees.",
       "perGroup": {
-        "G3": "93\u201396%",
-        "G5": "90\u201394%",
-        "G2": "88\u201392%",
-        "G4": "84\u201390%",
-        "G1": "75\u201382%",
-        "G0": "78\u201390%"
+        "G3": "73–78%",
+        "G2": "47–70%",
+        "G5": "56–63%",
+        "G4": "38–51%",
+        "G1": "17–32%",
+        "G0": "0–23%"
       }
     }
   },
   "courses": [
     {
-      "group": "G0 \u2013 English Language",
-      "focus": "Reading speed, vocabulary, academic structure.",
+      "code": "G0",
+      "group": "G0 – English Language",
+      "focus": "Reading speed, vocabulary depth, and academic structures with TOEFL/IELTS-style passages.",
       "books": [
         {
           "title": "Barron's Essential Words for the TOEFL",
@@ -42,18 +65,19 @@
       ],
       "ocw": [
         {
-          "title": "MIT OpenCourseWare \u2013 Academic English for International Students",
+          "title": "MIT OpenCourseWare – Academic English for International Students",
           "url": "https://ocw.mit.edu/courses/21g-223-writing-in-english-spring-2004/"
         },
         {
-          "title": "Sharif University \u2013 Technical English seminars",
+          "title": "Sharif University – Technical English seminars",
           "url": "https://ocw.sharif.edu/course/id/130/"
         }
       ]
     },
     {
-      "group": "G1 \u2013 Math & Statistics",
-      "focus": "Linear algebra, calculus, probability, discrete math.",
+      "code": "G1",
+      "group": "G1 – Math & Statistics",
+      "focus": "Linear algebra foundations, probability/statistics for AI, and discrete math for proofs and counting.",
       "books": [
         {
           "title": "Advanced Engineering Mathematics",
@@ -77,18 +101,19 @@
           "url": "https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/"
         },
         {
-          "title": "Stanford \u2013 Probability for Computer Scientists",
-          "url": "https://statistics.stanford.edu/courses/stat-116-theory-probability"
+          "title": "MIT 6.041 / RES.6-012 – Probability",
+          "url": "https://ocw.mit.edu/search/?q=6.041"
         },
         {
-          "title": "University of Tehran \u2013 Discrete Mathematics (OCW)",
+          "title": "University of Tehran – Discrete Mathematics (OCW)",
           "url": "https://ocw.ut.ac.ir/course/2480/Discrete-Mathematics"
         }
       ]
     },
     {
-      "group": "G2 \u2013 Automata & Signals",
-      "focus": "Formal languages, automata theory, signal processing basics.",
+      "code": "G2",
+      "group": "G2 – Automata & Signals",
+      "focus": "Formal languages/automata paired with CT/DT signal processing and transforms.",
       "books": [
         {
           "title": "Introduction to Automata Theory, Languages, and Computation",
@@ -107,14 +132,15 @@
           "url": "https://ocw.mit.edu/courses/6-003-signals-and-systems-fall-2011/"
         },
         {
-          "title": "Sharif University \u2013 Automata Theory",
+          "title": "Sharif University – Automata Theory",
           "url": "https://ocw.sharif.edu/course/id/124/"
         }
       ]
     },
     {
-      "group": "G3 \u2013 Data Structures, Algorithms, AI",
-      "focus": "High-weight algorithms and AI fundamentals.",
+      "code": "G3",
+      "group": "G3 – Data Structures, Algorithms, AI",
+      "focus": "High-weight core for the AI subgroup: DS/algorithms, AIMA search & probabilistic reasoning.",
       "books": [
         {
           "title": "Introduction to Algorithms",
@@ -138,18 +164,19 @@
           "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/"
         },
         {
-          "title": "Stanford CS221: Artificial Intelligence",
-          "url": "https://see.stanford.edu/Course/CS221"
+          "title": "MIT 6.046J Design & Analysis of Algorithms",
+          "url": "https://ocw.mit.edu/courses/6-046j-design-and-analysis-of-algorithms-spring-2015/"
         },
         {
-          "title": "Sharif University \u2013 Data Structures",
-          "url": "https://ocw.sharif.edu/course/id/104/"
+          "title": "Berkeley CS188 – Intro to AI",
+          "url": "https://inst.eecs.berkeley.edu/~cs188/sp24/"
         }
       ]
     },
     {
-      "group": "G4 \u2013 Digital Logic & Architecture",
-      "focus": "Logic design, micro-architecture, digital electronics.",
+      "code": "G4",
+      "group": "G4 – Digital Logic & Architecture",
+      "focus": "Logic design, combinational/sequential circuits, datapath/control, and MIPS-level architecture.",
       "books": [
         {
           "title": "Digital Design",
@@ -168,14 +195,15 @@
           "url": "https://ocw.mit.edu/courses/6-004-computation-structures-spring-2017/"
         },
         {
-          "title": "Tehran Polytechnic \u2013 Digital Logic",
+          "title": "Tehran Polytechnic – Digital Logic",
           "url": "https://ocw.aut.ac.ir/course/digital-logic-circuits/"
         }
       ]
     },
     {
-      "group": "G5 \u2013 Systems (OS, Networks, DB)",
-      "focus": "Operating systems, networking, and database fundamentals.",
+      "code": "G5",
+      "group": "G5 – Systems (OS, Networks, DB)",
+      "focus": "Operating systems, networks, and databases with emphasis on OS scheduling, transport layer, and SQL/normalization.",
       "books": [
         {
           "title": "Operating System Concepts",
@@ -199,666 +227,305 @@
           "url": "https://ocw.mit.edu/courses/6-1810-operating-system-engineering-fall-2020/"
         },
         {
-          "title": "Stanford \u2013 CS144 Introduction to Computer Networking",
+          "title": "Stanford – CS144 Introduction to Computer Networking",
           "url": "https://cs144.github.io/"
         },
         {
-          "title": "Sharif University \u2013 Database Systems",
+          "title": "Sharif University – Database Systems",
           "url": "https://ocw.sharif.edu/course/id/51/"
+        }
+      ]
+    }
+  ],
+  "studyTracks": [
+    {
+      "id": "g3-algorithms",
+      "title": "Data Structures & Algorithms (G3 core)",
+      "mainTextbook": "CLRS 3rd ed.",
+      "mainOCW": "MIT 6.006 + 6.046J playlists",
+      "overview": "Pick one playlist and run it end-to-end alongside the matching CLRS chapters instead of hopping between sources.",
+      "sections": [
+        {
+          "title": "Sorting & Order Statistics",
+          "konkurTopics": ["Comparison and linear-time sorting", "Selection and order statistics", "Lower bounds and stability"],
+          "chapters": "CLRS Ch.2–3 (growth), Ch.6–9 for heapsort/quicksort/linear-time sorting and medians",
+          "ocwPlaylist": ["MIT 6.006 Lec 3 – Sets and Sorting", "MIT 6.006 Lec 5 – Linear Sorting", "Problem sessions 2–3 for practice"]
+        },
+        {
+          "title": "Basic Data Structures",
+          "konkurTopics": ["Lists, stacks, queues", "Balanced BST intuition", "Heaps and hashing"],
+          "chapters": "CLRS Ch.10–13, 18 (BSTs, hashing, heaps, B-trees light)",
+          "ocwPlaylist": ["MIT 6.006 Lec 2 – Dynamic Arrays", "MIT 6.006 Lec 6–8 – Trees & Heaps", "MIT 6.006 Lec 4 – Hashing"]
+        },
+        {
+          "title": "Graph Algorithms",
+          "konkurTopics": ["BFS/DFS & topological sort", "Shortest paths (Dijkstra, Bellman–Ford)", "MST (Prim, Kruskal)"],
+          "chapters": "CLRS Ch.22–25 (graph basics, MST, shortest paths)",
+          "ocwPlaylist": ["MIT 6.006 Lec 9–10 – BFS/DFS", "MIT 6.006 Lec 11–14 – Shortest paths & APSP"]
+        },
+        {
+          "title": "Greedy & Dynamic Programming",
+          "konkurTopics": ["Interval scheduling/Huffman reasoning", "DP on sequences and DAGs"],
+          "chapters": "CLRS Ch.15–16",
+          "ocwPlaylist": ["MIT 6.006 Lec 15–18 – DP parts 1–4", "MIT 6.046J greedy/DP refresher"]
+        }
+      ]
+    },
+    {
+      "id": "g3-ai",
+      "title": "Artificial Intelligence (within G3)",
+      "mainTextbook": "Russell & Norvig – AIMA",
+      "mainOCW": "Berkeley CS188",
+      "overview": "Use AIMA for structure and lean on CS188 lectures for intuition and problem framing.",
+      "sections": [
+        {
+          "title": "State-space search",
+          "konkurTopics": ["BFS/DFS/uniform-cost", "Greedy best-first & A* with heuristics", "Optimality and completeness"],
+          "chapters": "AIMA Ch.3–4",
+          "ocwPlaylist": ["CS188 LEC02 – Uninformed search", "CS188 LEC03 – Informed search & A*", "CS188 LEC04 – Local search (intuition)"]
+        },
+        {
+          "title": "Constraint Satisfaction Problems",
+          "konkurTopics": ["Variables/domains/constraints", "Backtracking with forward checking", "Arc consistency"],
+          "chapters": "AIMA Ch.6",
+          "ocwPlaylist": ["CS188 CSP lectures (LEC07–08 style)"]
+        },
+        {
+          "title": "Probabilistic reasoning & decision making",
+          "konkurTopics": ["Bayes rule & conditional independence", "Simple Bayes nets and inference", "Utility + simple MDP intuition"],
+          "chapters": "AIMA Ch.12–13, 16–17 (skim decisions)",
+          "ocwPlaylist": ["CS188 probability/Bayes/MDP/RL lectures (LEC10–25 range)"]
+        }
+      ]
+    },
+    {
+      "id": "g1-probability",
+      "title": "Probability & Statistics (G1)",
+      "mainTextbook": "MIT RES.6-012 notes / Devore for exercises",
+      "mainOCW": "MIT 6.041 / RES.6-012",
+      "overview": "Focus on distributions, conditional probability, and limit theorems that appear in AI subgroup questions.",
+      "sections": [
+        {
+          "title": "Core probability",
+          "konkurTopics": ["Sample spaces & conditional probability", "Common discrete/continuous distributions", "Expectation and variance"],
+          "chapters": "RES.6-012 core lectures; Devore chapters on discrete/continuous RVs",
+          "ocwPlaylist": ["RES.6-012 video series", "MIT 6.041 lectures on distributions"]
+        },
+        {
+          "title": "Limit theorems & inference basics",
+          "konkurTopics": ["LLN and CLT", "Simple confidence intervals & estimation intuition"],
+          "chapters": "Later RES.6-012 lectures and 6.041 notes",
+          "ocwPlaylist": ["MIT 6.041 later lectures on CLT/inference"]
+        }
+      ]
+    },
+    {
+      "id": "g2-theory",
+      "title": "Theory of Computation & Discrete Math (G2 partly)",
+      "mainTextbook": "Sipser or Hopcroft–Motwani–Ullman; Rosen for discrete",
+      "mainOCW": "MIT 6.045J",
+      "overview": "Pair automata/decidability with discrete math counting and graph basics for the mixed G2 questions.",
+      "sections": [
+        {
+          "title": "Automata & formal languages",
+          "konkurTopics": ["DFA/NFA/regex equivalence", "Regular/context-free languages", "Pumping lemmas"],
+          "chapters": "Sipser Ch.1–2 or HMU automata sections",
+          "ocwPlaylist": ["MIT 6.045J early DFA/NFA/CFG lectures"]
+        },
+        {
+          "title": "Decidability & complexity",
+          "konkurTopics": ["Turing machines (basic)", "Decidable vs. undecidable", "P/NP and NP-complete intuition"],
+          "chapters": "Sipser Ch.3–7 selections",
+          "ocwPlaylist": ["MIT 6.045J computability/complexity lectures"]
+        },
+        {
+          "title": "Discrete math & graph foundations",
+          "konkurTopics": ["Logic, sets, functions", "Induction and combinatorics", "Graph fundamentals"],
+          "chapters": "Rosen chapters on logic, induction, counting, graphs",
+          "ocwPlaylist": ["UT Discrete Math OCW; MIT 6.042J style playlists"]
+        }
+      ]
+    },
+    {
+      "id": "g2-signals",
+      "title": "Signals & Systems (G2)",
+      "mainTextbook": "Oppenheim & Willsky – Signals and Systems",
+      "mainOCW": "MIT 6.003 / RES.6-007",
+      "overview": "Hit the CT/DT fundamentals: convolution, Fourier/Laplace/Z, and sampling/frequency response.",
+      "sections": [
+        {
+          "title": "Time-domain analysis",
+          "konkurTopics": ["CT/DT signals & operations", "LTI systems and convolution", "Impulse/step responses"],
+          "chapters": "Oppenheim early chapters on signals, LTI, convolution",
+          "ocwPlaylist": ["MIT 6.003 lectures on LTI and convolution"]
+        },
+        {
+          "title": "Transform-domain analysis",
+          "konkurTopics": ["Fourier series/transform", "Laplace and Z-transform", "Frequency response & Bode ideas"],
+          "chapters": "Oppenheim chapters on Fourier, Laplace, Z-transform and sampling",
+          "ocwPlaylist": ["MIT 6.003 Fourier/Laplace/Z-transform lectures"]
+        }
+      ]
+    },
+    {
+      "id": "g4-g5-systems",
+      "title": "Hardware & Systems (G4 & G5)",
+      "mainTextbook": "Mano (logic), Patterson/Hennessy (arch), Silberschatz (OS/DB), Kurose & Ross (networks)",
+      "mainOCW": "MIT 6.004, MIT 6.S081, Stanford CS144, Stanford-style DB materials",
+      "overview": "Cover the architecture path plus the OS/network/DB trio that drives G4–G5 weighting.",
+      "sections": [
+        {
+          "title": "Digital logic & architecture",
+          "konkurTopics": ["Combinational & sequential circuits", "FSM design", "Datapath + control"],
+          "chapters": "Mano logic chapters; Patterson/Hennessy datapath/control sections",
+          "ocwPlaylist": ["MIT 6.004 combinational/sequential modules"]
+        },
+        {
+          "title": "Operating systems",
+          "konkurTopics": ["Processes/threads & scheduling", "Synchronization/deadlocks", "Virtual memory"],
+          "chapters": "Silberschatz OS Concepts core chapters",
+          "ocwPlaylist": ["MIT 6.S081 lectures"]
+        },
+        {
+          "title": "Networks & databases",
+          "konkurTopics": ["Transport/application layer flows", "SQL, relational algebra, normalization"],
+          "chapters": "Kurose & Ross transport/app chapters; Silberschatz DB normalization sections",
+          "ocwPlaylist": ["Stanford CS144 modules", "Stanford/Sharif DB playlists"]
         }
       ]
     }
   ],
   "candidateScores": [
     {
-      "id": "Candidate-55",
-      "groupScores": {
-        "G0": 0.814,
-        "G1": 0.917,
-        "G2": 0.934,
-        "G3": 0.97,
-        "G4": 0.847,
-        "G5": 0.967
-      },
-      "weightedScore": 92.83,
-      "rank": 1
+      "rank": 1,
+      "groupScores": { "G0": 0.227, "G1": 0.167, "G2": 0.7037, "G3": 0.7333, "G4": 0.3833, "G5": 0.6316 },
+      "weightedScore": 55.11
     },
     {
-      "id": "Candidate-16",
-      "groupScores": {
-        "G0": 0.97,
-        "G1": 0.829,
-        "G2": 0.875,
-        "G3": 0.968,
-        "G4": 0.915,
-        "G5": 0.966
-      },
-      "weightedScore": 92.35,
-      "rank": 2
+      "rank": 7,
+      "groupScores": { "G0": 0.0, "G1": 0.318, "G2": 0.4667, "G3": 0.78, "G4": 0.5064, "G5": 0.5569 },
+      "weightedScore": 52.26
     },
     {
-      "id": "Candidate-49",
-      "groupScores": {
-        "G0": 0.909,
-        "G1": 0.723,
-        "G2": 0.97,
-        "G3": 0.944,
-        "G4": 0.942,
-        "G5": 0.97
-      },
-      "weightedScore": 92.23,
-      "rank": 3
+      "rank": 11,
+      "groupScores": { "G0": 0.0, "G1": 0.1, "G2": 0.8889, "G3": 0.5, "G4": 0.5333, "G5": 0.2982 },
+      "weightedScore": 45.52
     },
     {
-      "id": "Candidate-43",
-      "groupScores": {
-        "G0": 0.97,
-        "G1": 0.916,
-        "G2": 0.969,
-        "G3": 0.85,
-        "G4": 0.914,
-        "G5": 0.964
-      },
-      "weightedScore": 92.19,
-      "rank": 4
+      "rank": 17,
+      "groupScores": { "G0": 0.0, "G1": 0.318, "G2": 0.4334, "G3": 0.4854, "G4": 0.5064, "G5": 0.4935 },
+      "weightedScore": 42.47
     },
     {
-      "id": "Candidate-44",
-      "groupScores": {
-        "G0": 0.944,
-        "G1": 0.847,
-        "G2": 0.949,
-        "G3": 0.961,
-        "G4": 0.812,
-        "G5": 0.908
-      },
-      "weightedScore": 91.18,
-      "rank": 5
+      "rank": 21,
+      "groupScores": { "G0": 0.601, "G1": 0.424, "G2": 0.3334, "G3": 0.6066, "G4": 0.4246, "G5": 0.1414 },
+      "weightedScore": 40.99
     },
     {
-      "id": "Candidate-04",
-      "groupScores": {
-        "G0": 0.949,
-        "G1": 0.845,
-        "G2": 0.868,
-        "G3": 0.964,
-        "G4": 0.885,
-        "G5": 0.931
-      },
-      "weightedScore": 91.08,
-      "rank": 6
+      "rank": 33,
+      "groupScores": { "G0": 0.0, "G1": 0.0, "G2": 0.1852, "G3": 0.5167, "G4": 0.7167, "G5": 0.6316 },
+      "weightedScore": 39.67
     },
     {
-      "id": "Candidate-31",
-      "groupScores": {
-        "G0": 0.953,
-        "G1": 0.841,
-        "G2": 0.917,
-        "G3": 0.931,
-        "G4": 0.845,
-        "G5": 0.946
-      },
-      "weightedScore": 90.92,
-      "rank": 7
+      "rank": 54,
+      "groupScores": { "G0": 0.1472, "G1": 0.583, "G2": 0.4667, "G3": 0.3986, "G4": 0.245, "G5": 0.0951 },
+      "weightedScore": 33.89
     },
     {
-      "id": "Candidate-37",
-      "groupScores": {
-        "G0": 0.956,
-        "G1": 0.739,
-        "G2": 0.924,
-        "G3": 0.97,
-        "G4": 0.841,
-        "G5": 0.955
-      },
-      "weightedScore": 90.89,
-      "rank": 8
+      "rank": 64,
+      "groupScores": { "G0": 0.0, "G1": -0.0166, "G2": 0.3333, "G3": 0.5, "G4": 0.55, "G5": 0.5789 },
+      "weightedScore": 38.69
     },
     {
-      "id": "Candidate-36",
-      "groupScores": {
-        "G0": 0.894,
-        "G1": 0.839,
-        "G2": 0.911,
-        "G3": 0.969,
-        "G4": 0.771,
-        "G5": 0.97
-      },
-      "weightedScore": 90.89,
-      "rank": 9
+      "rank": 72,
+      "groupScores": { "G0": 0.5766, "G1": 0.0, "G2": 0.4, "G3": 0.3466, "G4": 0.4574, "G5": 0.2282 },
+      "weightedScore": 31.75
     },
     {
-      "id": "Candidate-25",
-      "groupScores": {
-        "G0": 0.886,
-        "G1": 0.799,
-        "G2": 0.914,
-        "G3": 0.97,
-        "G4": 0.921,
-        "G5": 0.872
-      },
-      "weightedScore": 90.43,
-      "rank": 10
+      "rank": 88,
+      "groupScores": { "G0": 0.653, "G1": 0.2, "G2": 0.2593, "G3": 0.4667, "G4": 0.1333, "G5": 0.4561 },
+      "weightedScore": 35.55
     },
     {
-      "id": "Candidate-14",
-      "groupScores": {
-        "G0": 0.953,
-        "G1": 0.835,
-        "G2": 0.901,
-        "G3": 0.97,
-        "G4": 0.844,
-        "G5": 0.889
-      },
-      "weightedScore": 90.41,
-      "rank": 11
+      "rank": 95,
+      "groupScores": { "G0": 0.84, "G1": 0.367, "G2": 0.2963, "G3": 0.3667, "G4": 0.3333, "G5": 0.2456 },
+      "weightedScore": 35.55
+    }
+  ],
+  "selfEvalPlan": {
+    "studyCompletionBy": "2026-02-15",
+    "headline": "Finish one full pass of the syllabus by mid-February, then enter an 8-week past-paper sprint.",
+    "pastPapers": [
+      { "year": 1404, "recommendedDate": "2026-03-02", "focus": "Baseline self-eval right after first-pass review" },
+      { "year": 1403, "recommendedDate": "2026-03-06", "focus": "Tighten timing and note careless errors" },
+      { "year": 1402, "recommendedDate": "2026-03-10", "focus": "Reinforce DS/Alg/AI pacing" },
+      { "year": 1401, "recommendedDate": "2026-03-13", "focus": "Watch Systems (OS/DB/Networks) timing" },
+      { "year": 1400, "recommendedDate": "2026-03-17", "focus": "Math + Theory stamina" },
+      { "year": 1399, "recommendedDate": "2026-03-20", "focus": "Hardware refresh (logic + arch)" },
+      { "year": 1398, "recommendedDate": "2026-03-24", "focus": "AI search + probability drills" },
+      { "year": 1397, "recommendedDate": "2026-03-27", "focus": "Networking/DB recall under time" },
+      { "year": 1396, "recommendedDate": "2026-03-31", "focus": "Algorithm design & proofs" },
+      { "year": 1395, "recommendedDate": "2026-04-03", "focus": "Signals/transforms quick checks" },
+      { "year": 1394, "recommendedDate": "2026-04-07", "focus": "Operating systems corner cases" },
+      { "year": 1393, "recommendedDate": "2026-04-10", "focus": "Probability & combinatorics redo" },
+      { "year": 1392, "recommendedDate": "2026-04-14", "focus": "Graph/DP mastery" },
+      { "year": 1391, "recommendedDate": "2026-04-17", "focus": "Architecture & caching details" },
+      { "year": 1390, "recommendedDate": "2026-04-21", "focus": "Final dress rehearsal before tapered review" }
+    ],
+    "notes": [
+      "Run each past paper as a full 240-minute simulation with the same break policy you plan for the real exam.",
+      "Record scores in mock-results-schema.csv and compare to the empirical bands.",
+      "Cycle back to weak blocks within 48 hours of each mock while the mistakes are fresh."
+    ]
+  },
+  "sectionPacing": [
+    {
+      "section": "English (General + Technical)",
+      "numbers": "1–25",
+      "questions": 25,
+      "group": "G0",
+      "weight": 1,
+      "note": "Light but fast — keep the flow and avoid overthinking vocabulary traps."
     },
     {
-      "id": "Candidate-58",
-      "groupScores": {
-        "G0": 0.97,
-        "G1": 0.722,
-        "G2": 0.854,
-        "G3": 0.97,
-        "G4": 0.965,
-        "G5": 0.919
-      },
-      "weightedScore": 90.29,
-      "rank": 12
+      "section": "Mathematics",
+      "numbers": "26–45",
+      "questions": 20,
+      "group": "G1",
+      "weight": 2,
+      "note": "Calculus I&II, probability/statistics, discrete — aim for clean setups and avoid long derivations."
     },
     {
-      "id": "Candidate-07",
-      "groupScores": {
-        "G0": 0.946,
-        "G1": 0.813,
-        "G2": 0.904,
-        "G3": 0.962,
-        "G4": 0.823,
-        "G5": 0.92
-      },
-      "weightedScore": 90.25,
-      "rank": 13
+      "section": "Specialised 1 – Theory & Signals",
+      "numbers": "46–55",
+      "questions": 10,
+      "group": "G2",
+      "weight": 3,
+      "note": "Theory of languages/machines + signals/systems; quick eliminations beat long proofs."
     },
     {
-      "id": "Candidate-10",
-      "groupScores": {
-        "G0": 0.931,
-        "G1": 0.857,
-        "G2": 0.846,
-        "G3": 0.954,
-        "G4": 0.878,
-        "G5": 0.924
-      },
-      "weightedScore": 90.18,
-      "rank": 14
+      "section": "Specialised 2 – DS, Algorithms, AI",
+      "numbers": "56–75",
+      "questions": 20,
+      "group": "G3",
+      "weight": 4,
+      "note": "Highest leverage block; protect time for graph/DP and AI reasoning."
     },
     {
-      "id": "Candidate-13",
-      "groupScores": {
-        "G0": 0.941,
-        "G1": 0.835,
-        "G2": 0.878,
-        "G3": 0.91,
-        "G4": 0.885,
-        "G5": 0.957
-      },
-      "weightedScore": 90.17,
-      "rank": 15
+      "section": "Specialised 3 – Logic, Architecture, Digital",
+      "numbers": "76–95",
+      "questions": 20,
+      "group": "G4",
+      "weight": 2,
+      "note": "Circuits, FSMs, datapath/control — mind the arithmetic and timing diagrams."
     },
     {
-      "id": "Candidate-51",
-      "groupScores": {
-        "G0": 0.97,
-        "G1": 0.885,
-        "G2": 0.872,
-        "G3": 0.879,
-        "G4": 0.949,
-        "G5": 0.915
-      },
-      "weightedScore": 90.1,
-      "rank": 16
-    },
-    {
-      "id": "Candidate-01",
-      "groupScores": {
-        "G0": 0.947,
-        "G1": 0.833,
-        "G2": 0.876,
-        "G3": 0.938,
-        "G4": 0.861,
-        "G5": 0.915
-      },
-      "weightedScore": 89.73,
-      "rank": 17
-    },
-    {
-      "id": "Candidate-35",
-      "groupScores": {
-        "G0": 0.908,
-        "G1": 0.811,
-        "G2": 0.908,
-        "G3": 0.97,
-        "G4": 0.839,
-        "G5": 0.865
-      },
-      "weightedScore": 89.38,
-      "rank": 18
-    },
-    {
-      "id": "Candidate-60",
-      "groupScores": {
-        "G0": 0.931,
-        "G1": 0.7,
-        "G2": 0.794,
-        "G3": 0.97,
-        "G4": 0.944,
-        "G5": 0.97
-      },
-      "weightedScore": 89.27,
-      "rank": 19
-    },
-    {
-      "id": "Candidate-11",
-      "groupScores": {
-        "G0": 0.938,
-        "G1": 0.804,
-        "G2": 0.902,
-        "G3": 0.939,
-        "G4": 0.848,
-        "G5": 0.895
-      },
-      "weightedScore": 89.26,
-      "rank": 20
-    },
-    {
-      "id": "Candidate-22",
-      "groupScores": {
-        "G0": 0.97,
-        "G1": 0.778,
-        "G2": 0.83,
-        "G3": 0.911,
-        "G4": 0.9,
-        "G5": 0.97
-      },
-      "weightedScore": 89.13,
-      "rank": 21
-    },
-    {
-      "id": "Candidate-28",
-      "groupScores": {
-        "G0": 0.941,
-        "G1": 0.821,
-        "G2": 0.85,
-        "G3": 0.927,
-        "G4": 0.913,
-        "G5": 0.881
-      },
-      "weightedScore": 88.73,
-      "rank": 22
-    },
-    {
-      "id": "Candidate-17",
-      "groupScores": {
-        "G0": 0.943,
-        "G1": 0.752,
-        "G2": 0.873,
-        "G3": 0.928,
-        "G4": 0.855,
-        "G5": 0.939
-      },
-      "weightedScore": 88.7,
-      "rank": 23
-    },
-    {
-      "id": "Candidate-05",
-      "groupScores": {
-        "G0": 0.908,
-        "G1": 0.774,
-        "G2": 0.856,
-        "G3": 0.937,
-        "G4": 0.867,
-        "G5": 0.931
-      },
-      "weightedScore": 88.66,
-      "rank": 24
-    },
-    {
-      "id": "Candidate-19",
-      "groupScores": {
-        "G0": 0.969,
-        "G1": 0.771,
-        "G2": 0.837,
-        "G3": 0.97,
-        "G4": 0.805,
-        "G5": 0.929
-      },
-      "weightedScore": 88.66,
-      "rank": 25
-    },
-    {
-      "id": "Candidate-26",
-      "groupScores": {
-        "G0": 0.936,
-        "G1": 0.87,
-        "G2": 0.794,
-        "G3": 0.956,
-        "G4": 0.892,
-        "G5": 0.876
-      },
-      "weightedScore": 88.63,
-      "rank": 26
-    },
-    {
-      "id": "Candidate-50",
-      "groupScores": {
-        "G0": 0.872,
-        "G1": 0.795,
-        "G2": 0.909,
-        "G3": 0.912,
-        "G4": 0.791,
-        "G5": 0.958
-      },
-      "weightedScore": 88.62,
-      "rank": 27
-    },
-    {
-      "id": "Candidate-53",
-      "groupScores": {
-        "G0": 0.915,
-        "G1": 0.787,
-        "G2": 0.857,
-        "G3": 0.952,
-        "G4": 0.886,
-        "G5": 0.88
-      },
-      "weightedScore": 88.53,
-      "rank": 28
-    },
-    {
-      "id": "Candidate-15",
-      "groupScores": {
-        "G0": 0.922,
-        "G1": 0.756,
-        "G2": 0.873,
-        "G3": 0.947,
-        "G4": 0.872,
-        "G5": 0.89
-      },
-      "weightedScore": 88.37,
-      "rank": 29
-    },
-    {
-      "id": "Candidate-02",
-      "groupScores": {
-        "G0": 0.925,
-        "G1": 0.789,
-        "G2": 0.859,
-        "G3": 0.935,
-        "G4": 0.862,
-        "G5": 0.9
-      },
-      "weightedScore": 88.29,
-      "rank": 30
-    },
-    {
-      "id": "Candidate-08",
-      "groupScores": {
-        "G0": 0.939,
-        "G1": 0.78,
-        "G2": 0.846,
-        "G3": 0.959,
-        "G4": 0.816,
-        "G5": 0.905
-      },
-      "weightedScore": 88.13,
-      "rank": 31
-    },
-    {
-      "id": "Candidate-39",
-      "groupScores": {
-        "G0": 0.819,
-        "G1": 0.703,
-        "G2": 0.87,
-        "G3": 0.97,
-        "G4": 0.786,
-        "G5": 0.97
-      },
-      "weightedScore": 87.98,
-      "rank": 32
-    },
-    {
-      "id": "Candidate-41",
-      "groupScores": {
-        "G0": 0.97,
-        "G1": 0.876,
-        "G2": 0.783,
-        "G3": 0.934,
-        "G4": 0.872,
-        "G5": 0.868
-      },
-      "weightedScore": 87.7,
-      "rank": 33
-    },
-    {
-      "id": "Candidate-20",
-      "groupScores": {
-        "G0": 0.962,
-        "G1": 0.804,
-        "G2": 0.883,
-        "G3": 0.87,
-        "G4": 0.857,
-        "G5": 0.913
-      },
-      "weightedScore": 87.68,
-      "rank": 34
-    },
-    {
-      "id": "Candidate-46",
-      "groupScores": {
-        "G0": 0.97,
-        "G1": 0.783,
-        "G2": 0.908,
-        "G3": 0.844,
-        "G4": 0.783,
-        "G5": 0.97
-      },
-      "weightedScore": 87.41,
-      "rank": 35
-    },
-    {
-      "id": "Candidate-54",
-      "groupScores": {
-        "G0": 0.866,
-        "G1": 0.908,
-        "G2": 0.777,
-        "G3": 0.97,
-        "G4": 0.812,
-        "G5": 0.843
-      },
-      "weightedScore": 86.97,
-      "rank": 36
-    },
-    {
-      "id": "Candidate-34",
-      "groupScores": {
-        "G0": 0.96,
-        "G1": 0.738,
-        "G2": 0.87,
-        "G3": 0.906,
-        "G4": 0.798,
-        "G5": 0.925
-      },
-      "weightedScore": 86.94,
-      "rank": 37
-    },
-    {
-      "id": "Candidate-03",
-      "groupScores": {
-        "G0": 0.887,
-        "G1": 0.795,
-        "G2": 0.847,
-        "G3": 0.896,
-        "G4": 0.854,
-        "G5": 0.908
-      },
-      "weightedScore": 86.89,
-      "rank": 38
-    },
-    {
-      "id": "Candidate-40",
-      "groupScores": {
-        "G0": 0.848,
-        "G1": 0.893,
-        "G2": 0.859,
-        "G3": 0.864,
-        "G4": 0.814,
-        "G5": 0.91
-      },
-      "weightedScore": 86.83,
-      "rank": 39
-    },
-    {
-      "id": "Candidate-59",
-      "groupScores": {
-        "G0": 0.97,
-        "G1": 0.75,
-        "G2": 0.86,
-        "G3": 0.93,
-        "G4": 0.888,
-        "G5": 0.816
-      },
-      "weightedScore": 86.63,
-      "rank": 40
-    },
-    {
-      "id": "Candidate-30",
-      "groupScores": {
-        "G0": 0.857,
-        "G1": 0.855,
-        "G2": 0.815,
-        "G3": 0.875,
-        "G4": 0.807,
-        "G5": 0.954
-      },
-      "weightedScore": 86.59,
-      "rank": 41
-    },
-    {
-      "id": "Candidate-33",
-      "groupScores": {
-        "G0": 0.967,
-        "G1": 0.792,
-        "G2": 0.825,
-        "G3": 0.893,
-        "G4": 0.866,
-        "G5": 0.865
-      },
-      "weightedScore": 86.17,
-      "rank": 42
-    },
-    {
-      "id": "Candidate-09",
-      "groupScores": {
-        "G0": 0.879,
-        "G1": 0.818,
-        "G2": 0.865,
-        "G3": 0.906,
-        "G4": 0.796,
-        "G5": 0.865
-      },
-      "weightedScore": 86.14,
-      "rank": 43
-    },
-    {
-      "id": "Candidate-38",
-      "groupScores": {
-        "G0": 0.874,
-        "G1": 0.743,
-        "G2": 0.903,
-        "G3": 0.831,
-        "G4": 0.904,
-        "G5": 0.906
-      },
-      "weightedScore": 86.13,
-      "rank": 44
-    },
-    {
-      "id": "Candidate-06",
-      "groupScores": {
-        "G0": 0.898,
-        "G1": 0.806,
-        "G2": 0.823,
-        "G3": 0.931,
-        "G4": 0.833,
-        "G5": 0.846
-      },
-      "weightedScore": 86.05,
-      "rank": 45
-    },
-    {
-      "id": "Candidate-29",
-      "groupScores": {
-        "G0": 0.92,
-        "G1": 0.721,
-        "G2": 0.899,
-        "G3": 0.903,
-        "G4": 0.766,
-        "G5": 0.865
-      },
-      "weightedScore": 85.32,
-      "rank": 46
-    },
-    {
-      "id": "Candidate-23",
-      "groupScores": {
-        "G0": 0.844,
-        "G1": 0.79,
-        "G2": 0.805,
-        "G3": 0.897,
-        "G4": 0.801,
-        "G5": 0.92
-      },
-      "weightedScore": 85.26,
-      "rank": 47
-    },
-    {
-      "id": "Candidate-21",
-      "groupScores": {
-        "G0": 0.91,
-        "G1": 0.766,
-        "G2": 0.823,
-        "G3": 0.97,
-        "G4": 0.77,
-        "G5": 0.818
-      },
-      "weightedScore": 85.23,
-      "rank": 48
-    },
-    {
-      "id": "Candidate-47",
-      "groupScores": {
-        "G0": 0.861,
-        "G1": 0.775,
-        "G2": 0.871,
-        "G3": 0.882,
-        "G4": 0.835,
-        "G5": 0.839
-      },
-      "weightedScore": 84.93,
-      "rank": 49
-    },
-    {
-      "id": "Candidate-32",
-      "groupScores": {
-        "G0": 0.823,
-        "G1": 0.746,
-        "G2": 0.831,
-        "G3": 0.885,
-        "G4": 0.864,
-        "G5": 0.879
-      },
-      "weightedScore": 84.75,
-      "rank": 50
+      "section": "Specialised 4 – OS, Networks, DB",
+      "numbers": "96–115",
+      "questions": 20,
+      "group": "G5",
+      "weight": 3,
+      "note": "Concept-heavy; bank time by recalling definitions and common patterns quickly."
     }
   ]
 }

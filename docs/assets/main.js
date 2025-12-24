@@ -11,6 +11,16 @@ function formatDateTime(date) {
   return date.toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' });
 }
 
+function computeWeightedScore(groupScores, weights) {
+  const totalWeight = Object.values(weights).reduce((a, b) => a + b, 0);
+  if (!totalWeight) return 0;
+  const weighted = Object.entries(weights).reduce(
+    (sum, [group, weight]) => sum + (groupScores[group] || 0) * weight,
+    0,
+  );
+  return (weighted / totalWeight) * 100;
+}
+
 function humanizeDuration(ms) {
   const totalSeconds = Math.max(0, Math.floor(ms / 1000));
   const days = Math.floor(totalSeconds / 86400);
@@ -77,37 +87,55 @@ function renderNextEvent(events) {
 
 function renderTimeline(events) {
   const container = document.getElementById('timeline');
-  container.innerHTML = '';
+  container.innerHTML = '<div class="timeline-track"></div>';
+  const track = container.querySelector('.timeline-track');
   const now = new Date();
   const sorted = events.map((evt) => ({ ...evt, date: new Date(evt.datetime) })).sort((a, b) => a.date - b.date);
   const start = sorted[0].date.getTime();
   const end = sorted[sorted.length - 1].date.getTime();
+  const span = Math.max(1, end - start);
+  const rowAnchors = [];
+  const trackWidth = track.getBoundingClientRect().width || track.offsetWidth || 780;
+  const cardWidth = 190;
+  const minGapPx = cardWidth + 24;
+
   sorted.forEach((evt) => {
     const status = evt.date < now ? 'done' : 'upcoming';
-    const progressRatio = Math.min(1, Math.max(0, (now - start) / (end - start)));
+    const ratio = (evt.date.getTime() - start) / span;
+    const leftPercent = ratio * 100;
+    const leftPx = ratio * trackWidth;
+    let rowIndex = 0;
+    while (rowAnchors[rowIndex] !== undefined && Math.abs(leftPx - rowAnchors[rowIndex]) < minGapPx) {
+      rowIndex += 1;
+    }
+    rowAnchors[rowIndex] = leftPx;
     const item = document.createElement('div');
     item.className = `timeline-item ${status}`;
+    item.style.left = `${leftPercent}%`;
+    item.style.setProperty('--row', rowIndex);
     item.innerHTML = `
       <div class="timeline-dot"></div>
+      <p class="timeline-date">${formatDateTime(evt.date)}</p>
       <h4>${evt.name}</h4>
-      <div class="meta">
-        <span>${evt.type}</span>
-        <span>${formatDateTime(evt.date)}</span>
-      </div>
-      <p>${evt.description}</p>
-      <div class="progress"><span style="width:${(progressRatio * 100).toFixed(1)}%"></span></div>`;
-    container.appendChild(item);
+      <p class="timeline-meta">${evt.type}</p>
+      <p class="timeline-desc">${evt.description}</p>`;
+    track.appendChild(item);
   });
+
+  const rowsUsed = rowAnchors.length || 1;
+  track.style.minHeight = `${170 + (rowsUsed - 1) * 140}px`;
 }
 
-function renderCourses(courses) {
+function renderCourses(courses, weights) {
   const grid = document.getElementById('course-grid');
   grid.innerHTML = '';
   courses.forEach((course) => {
     const card = document.createElement('div');
     card.className = 'course-card';
+    const weight = weights[course.code] ?? weights[course.group.split(' ')[0]];
     card.innerHTML = `
       <h3>${course.group}</h3>
+      <p class="course-weight">Weight in model: <strong>${weight ? `×${weight}` : '—'}</strong></p>
       <p class="focus">${course.focus}</p>
       <div>
         <p class="eyebrow">Books</p>
@@ -136,6 +164,53 @@ function renderCourses(courses) {
             .join('')}
         </ul>
       </div>`;
+    grid.appendChild(card);
+  });
+}
+
+function renderWeightLegend(weights) {
+  const legend = document.getElementById('weight-legend');
+  legend.innerHTML = '<p class="eyebrow">Course weights</p>';
+  const list = document.createElement('div');
+  list.className = 'weight-pills';
+  Object.entries(weights)
+    .sort(([a], [b]) => a.localeCompare(b))
+    .forEach(([group, weight]) => {
+      const pill = document.createElement('div');
+      pill.className = 'weight-pill';
+      pill.innerHTML = `<span>${group}</span><strong>${weight}</strong>`;
+      list.appendChild(pill);
+    });
+  legend.appendChild(list);
+}
+
+function renderStudyTracks(tracks) {
+  const grid = document.getElementById('study-tracks');
+  if (!grid) return;
+  grid.innerHTML = '';
+  tracks.forEach((track) => {
+    const card = document.createElement('div');
+    card.className = 'study-card';
+    const sections = track.sections
+      .map(
+        (section) => `
+        <div class="track-section">
+          <h4>${section.title}</h4>
+          <p class="eyebrow">Konkur focus</p>
+          <ul>${section.konkurTopics.map((t) => `<li>${t}</li>`).join('')}</ul>
+          <p class="eyebrow">Textbook chapters</p>
+          <p class="muted">${section.chapters}</p>
+          <p class="eyebrow">OCW playlist</p>
+          <ul>${section.ocwPlaylist.map((lec) => `<li>${lec}</li>`).join('')}</ul>
+        </div>`
+      )
+      .join('');
+
+    card.innerHTML = `
+      <h3>${track.title}</h3>
+      <p class="muted"><strong>Main textbook:</strong> ${track.mainTextbook}<br /><strong>Main OCW:</strong> ${track.mainOCW}</p>
+      <p class="muted">${track.overview}</p>
+      <div class="track-sections">${sections}</div>`;
     grid.appendChild(card);
   });
 }
@@ -173,51 +248,299 @@ function renderCalculator(weights) {
 
 function renderSafeRange(safeRanges) {
   const container = document.getElementById('safe-range');
-  const top3 = safeRanges.top3;
+  const featured = safeRanges.featured || safeRanges.top3;
+  if (!featured) return;
   container.innerHTML = `
-    <h3>Safe range for top 3</h3>
-    <p>${top3.confidence}</p>
-    <p class="result">${top3.targetWeighted}</p>
+    <h3>${featured.title || 'Safe range snapshot'}</h3>
+    <p>${featured.confidence}</p>
+    <p class="result">${featured.targetWeighted}</p>
     <ul>
-      ${Object.entries(top3.perGroup)
-        .map(([group, band]) => `<li><strong>${group}</strong>: ${band}</li>`)
-        .join('')}
+      ${(featured.perGroup &&
+        Object.entries(featured.perGroup)
+          .map(([group, band]) => `<li><strong>${group}</strong>: ${band}</li>`)
+          .join('')) || ''}
     </ul>`;
 }
 
-function renderScoreTable(candidates) {
+function renderScoreTable(candidates, weights) {
   const tbody = document.querySelector('#score-table tbody');
   tbody.innerHTML = '';
-  candidates.slice(0, 50).forEach((c) => {
+  const formatCell = (value) => `${(value * 100).toFixed(1)}%`;
+  candidates.forEach((c) => {
+    const computed = typeof c.weightedScore === 'number'
+      ? c.weightedScore
+      : computeWeightedScore(c.groupScores, weights);
+    const barWidth = Math.min(100, computed);
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td>${c.rank}</td>
-      <td>${c.id}</td>
-      <td>${c.weightedScore.toFixed(2)}%</td>
-      <td>${Math.round(c.groupScores.G0 * 100)}%</td>
-      <td>${Math.round(c.groupScores.G1 * 100)}%</td>
-      <td>${Math.round(c.groupScores.G2 * 100)}%</td>
-      <td>${Math.round(c.groupScores.G3 * 100)}%</td>
-      <td>${Math.round(c.groupScores.G4 * 100)}%</td>
-      <td>${Math.round(c.groupScores.G5 * 100)}%</td>`;
+      <td>
+        <div class="score-bar">
+          <span style="width:${barWidth.toFixed(1)}%"></span>
+          <strong>${computed.toFixed(2)}%</strong>
+        </div>
+      </td>
+      <td>${formatCell(c.groupScores.G0)}</td>
+      <td>${formatCell(c.groupScores.G1)}</td>
+      <td>${formatCell(c.groupScores.G2)}</td>
+      <td>${formatCell(c.groupScores.G3)}</td>
+      <td>${formatCell(c.groupScores.G4)}</td>
+      <td>${formatCell(c.groupScores.G5)}</td>
+      <td>${computed.toFixed(2)}%</td>`;
     tbody.appendChild(tr);
   });
 }
 
+function renderSelfEvalPlan(plan) {
+  const container = document.getElementById('self-eval-plan');
+  if (!container || !plan) return;
+
+  const finishDate = plan.studyCompletionBy
+    ? new Date(`${plan.studyCompletionBy}T20:00:00+03:30`)
+    : null;
+  const notes = (plan.notes || [])
+    .map((n) => `<li>${n}</li>`)
+    .join('');
+  const rows = (plan.pastPapers || [])
+    .map((p) => {
+      const date = new Date(`${p.recommendedDate}T09:00:00+03:30`);
+      return `
+        <tr>
+          <td>${p.year}</td>
+          <td>${formatDateTime(date)}</td>
+          <td>${p.focus}</td>
+        </tr>`;
+    })
+    .join('');
+
+  container.innerHTML = `
+    <div class="plan-heading">
+      <h3>Mock cadence using past papers (1404→1390)</h3>
+      <p class="muted">${plan.headline || ''}</p>
+      ${finishDate ? `<p class="eyebrow">Finish first pass by <strong>${formatDateTime(finishDate)}</strong></p>` : ''}
+    </div>
+    <div class="plan-layout">
+      <div>
+        <p class="eyebrow">How to run them</p>
+        <ul class="note-list">${notes}</ul>
+      </div>
+      <div class="table-wrapper">
+        <table class="plan-table">
+          <thead>
+            <tr><th>Past exam</th><th>Suggested date</th><th>Focus</th></tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+    </div>`;
+}
+
+function renderSectionPacing(sections, weights, weightingDisplay, totalMinutes = 240) {
+  const container = document.getElementById('pacing-table');
+  if (!container || !sections) return;
+  const weightTotals = sections.reduce((sum, sec) => {
+    const effectiveWeight = sec.weight || weights[sec.group] || 1;
+    return sum + (sec.questions || 0) * effectiveWeight;
+  }, 0);
+  let cursor = 0;
+  const weightingRows = (weightingDisplay?.groups || [])
+    .map(
+      (g) => `
+        <tr>
+          <td><strong>${g.code}</strong></td>
+          <td>${g.subjects}</td>
+          <td>×${g.weight}</td>
+        </tr>`
+    )
+    .join('');
+  const targetBadges = (weightingDisplay?.targetProfile?.items || [])
+    .map((item) => `<span class="target-badge"><strong>${item.group}</strong>: ${item.target}</span>`)
+    .join('');
+  const rows = sections
+    .map((sec) => {
+      const effectiveWeight = sec.weight || weights[sec.group] || 1;
+      const weightedUnits = (sec.questions || 0) * effectiveWeight;
+      const share = weightTotals ? (weightedUnits / weightTotals) * 100 : 0;
+      const minutes = weightTotals
+        ? (totalMinutes * weightedUnits) / weightTotals
+        : totalMinutes / sections.length;
+      const perQuestion = sec.questions ? minutes / sec.questions : 0;
+      const startWindow = cursor;
+      const endWindow = cursor + minutes;
+      cursor = endWindow;
+      return `
+        <tr>
+          <td><strong>${sec.section}</strong><br/><span class="muted">${sec.note || ''}</span></td>
+          <td>${sec.numbers || '—'}</td>
+          <td>${sec.questions}</td>
+          <td>×${effectiveWeight}</td>
+          <td>${share.toFixed(1)}%</td>
+          <td>${minutes.toFixed(1)} min</td>
+          <td>${perQuestion.toFixed(2)} min/q</td>
+          <td>${startWindow.toFixed(0)} – ${endWindow.toFixed(0)} min</td>
+        </tr>`;
+    })
+    .join('');
+
+  container.innerHTML = `
+    <div class="plan-heading">
+      <h3>Exam-day pacing by section (115 questions, 240 minutes)</h3>
+      <p class="muted">Time per section is proportional to (questions × coefficient), matching the official weights and keeping math ≈2× language per question.</p>
+    </div>
+    ${weightingRows
+      ? `<div class="weighting-flex">
+          <div class="weighting-card">
+            <p class="eyebrow">${weightingDisplay?.title || 'Group weights'}</p>
+            <h4>For the AI subgroup of Computer Engineering</h4>
+            <p class="muted">${weightingDisplay?.subtitle || ''}</p>
+            <table class="weighting-table">
+              <thead><tr><th>Group</th><th>Subjects</th><th>Weight</th></tr></thead>
+              <tbody>${weightingRows}</tbody>
+            </table>
+          </div>
+          ${targetBadges
+            ? `<div class="weighting-card">
+                <p class="eyebrow">${weightingDisplay?.targetProfile?.title || 'Targets'}</p>
+                <h4>Suggested mock targets</h4>
+                <div class="target-badges">${targetBadges}</div>
+              </div>`
+            : ''}
+        </div>`
+      : ''}
+    <table class="plan-table">
+      <thead>
+        <tr>
+          <th>Section</th>
+          <th>Q. range</th>
+          <th>#</th>
+          <th>Weight</th>
+          <th>Score share</th>
+          <th>Suggested minutes</th>
+          <th>Minutes per question</th>
+          <th>Suggested exam window</th>
+        </tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>`;
+}
+
+function renderBandSummary(bandsData) {
+  const container = document.getElementById('band-grid');
+  if (!container || !bandsData?.bands) return;
+  container.innerHTML = '';
+  bandsData.bands.forEach((band) => {
+    const card = document.createElement('div');
+    card.className = 'band-card';
+    const metrics = ['L', 'M', 'T', 'A', 'H', 'S', 'W']
+      .filter((k) => band.metrics[k])
+      .map(
+        (k) => `
+        <li>
+          <span class="code">${k}</span>
+          <div>
+            <p class="range">${band.metrics[k].range}</p>
+            <p class="muted">avg ~${band.metrics[k].avg}%</p>
+          </div>
+        </li>`,
+      )
+      .join('');
+    card.innerHTML = `
+      <div class="band-header">
+        <p class="eyebrow">${band.label}</p>
+        <h3>${band.range}</h3>
+        <p class="muted">Sample size: ${band.sampleSize}</p>
+        <p class="muted">${band.description}</p>
+      </div>
+      <ul class="band-metrics">${metrics}</ul>`;
+    container.appendChild(card);
+  });
+}
+
+function renderBlockTargets(bandsData) {
+  const container = document.getElementById('block-targets');
+  if (!container || !bandsData?.blockTargets) return;
+  container.innerHTML = '';
+  bandsData.blockTargets.forEach((block) => {
+    const bandLines = Object.entries(block.bands)
+      .map(([band, text]) => `<li><strong>${band}</strong>: ${text}</li>`)
+      .join('');
+    const targets = (block.targets || []).map((t) => `<li>${t}</li>`).join('');
+    const card = document.createElement('div');
+    card.className = 'target-card';
+    card.innerHTML = `
+      <div class="target-heading">
+        <p class="eyebrow">${block.block} block (weight ×${block.weight})</p>
+        <h4>${block.name}</h4>
+        <p class="muted">${block.notes || ''}</p>
+      </div>
+      <div class="target-body">
+        <p class="eyebrow">Observed ranges (sample)</p>
+        <ul class="band-lines">${bandLines}</ul>
+        <p class="eyebrow">Practical targets</p>
+        <ul class="targets">${targets}</ul>
+      </div>`;
+    container.appendChild(card);
+  });
+}
+
+function renderWeightedBands(bandsData) {
+  const container = document.getElementById('weighted-bands');
+  if (!container || !bandsData?.weightedBands) return;
+  container.innerHTML = '<h3>Weighted score bands (model)</h3>';
+  const list = document.createElement('div');
+  list.className = 'weighted-band-list';
+  bandsData.weightedBands.forEach((band) => {
+    const pill = document.createElement('div');
+    pill.className = 'weighted-band';
+    pill.innerHTML = `
+      <div class="band-range">${band.range}</div>
+      <div class="band-score">${band.score}</div>
+      <p class="muted">${band.note}</p>`;
+    list.appendChild(pill);
+  });
+  container.appendChild(list);
+}
+
+function renderFormula(bandsData, weights) {
+  const container = document.getElementById('formula-card');
+  if (!container) return;
+  const formulaText = bandsData?.formula || '(1*L + 2*M + 3*T + 4*A + 2*H + 3*S) / 15';
+  const mockLink = bandsData?.mockSchema?.download || './data/mock-results-schema.csv';
+  container.innerHTML = `
+    <h3>Mock logging template</h3>
+    <p class="muted">Use this Excel/Sheets-ready schema and formula to log your practice tests.</p>
+    <p class="eyebrow">Weighted formula</p>
+    <code class="formula-code">${formulaText}</code>
+    <p class="muted">Weights currently: ${Object.entries(weights)
+      .map(([g, w]) => `${g}×${w}`)
+      .join(', ')}</p>
+    <a class="download" href="${mockLink}" download>Download mock-results-schema.csv</a>
+  `;
+}
+
 async function bootstrap() {
   try {
-    const [eventData, resources] = await Promise.all([
+    const [eventData, resources, bands] = await Promise.all([
       loadJsonFromMarkdown('./data/events.md'),
       loadJsonFromMarkdown('./data/resources.md'),
+      loadJsonFromMarkdown('./data/empirical-bands.md'),
     ]);
     const events = eventData.events;
     renderCountdownCards(events);
     renderNextEvent(events);
     renderTimeline(events);
-    renderCourses(resources.courses);
+    renderWeightLegend(resources.weights);
+    renderCourses(resources.courses, resources.weights);
+    renderStudyTracks(resources.studyTracks || []);
     renderCalculator(resources.weights);
     renderSafeRange(resources.safeRanges);
-    renderScoreTable(resources.candidateScores);
+    renderScoreTable(resources.candidateScores, resources.weights);
+    renderSelfEvalPlan(resources.selfEvalPlan);
+    renderSectionPacing(resources.sectionPacing, resources.weights, resources.weightingDisplay);
+    renderBandSummary(bands);
+    renderBlockTargets(bands);
+    renderWeightedBands(bands);
+    renderFormula(bands, resources.weights);
   } catch (err) {
     console.error(err);
     const page = document.querySelector('.page');

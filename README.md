@@ -55,11 +55,17 @@ This repo is wired so you can keep the countdown in the header **up to date auto
 
 - The repository now ships with a ready-to-serve site in **`docs/index.html`** that GitHub Pages can publish from the
   `/docs` folder.
-- All timelines, countdowns, resources, and score analytics pull data from two markdown files:
+- All timelines, countdowns, resources, and score analytics pull data from markdown:
   - **`docs/data/events.md`** – edit event names or dates and the countdowns + timeline will update automatically on the
     next page load.
-  - **`docs/data/resources.md`** – edit course books/OCW links, exam weights, safe ranges, or the 50-sample score table
+  - **`docs/data/resources.md`** – edit course books/OCW links, playlist mappings, exam weights, or the real candidate table
     and the site will re-render without code changes.
+    - `selfEvalPlan` → suggested dates for running past papers (1404–1390) plus the “finish syllabus by” milestone.
+    - `sectionPacing` → official question counts with a weight-aware time budget per section for the 240-minute exam.
+  - **`docs/data/real-ai-results-1404-1403.md`** – the raw table of public AI subgroup results used to seed the score model.
+  - **`docs/data/empirical-bands.md`** – JSON + narrative of empirical rank bands, block targets, and the weighted score
+    mapping used by the “Empirical bands” panel.
+  - **`docs/data/mock-results-schema.csv`** – Excel/Sheets-ready schema for logging your own mocks with the same weight model.
 - To publish:
   1. In the GitHub repository settings, set **Pages → Source** to **Deploy from a branch → `/docs` folder**.
   2. Push changes; Pages will serve the site (no build step required).
@@ -79,22 +85,22 @@ This repo is wired so you can keep the countdown in the header **up to date auto
 
 ### Admin checklist
 
-- [x] Create / confirm account on **sanjesh.org**.
-- [x] Set two calendar reminders: **start** and **end** of registration window.
-- [x] Download and read the **official 1405 brochure** once it is published.
-- [x] Decide whether to choose any **second (شناور) field**.
+- [ ] Create / confirm account on **sanjesh.org**.
+- [ ] Set two calendar reminders: **start** and **end** of registration window.
+- [ ] Download and read the **official 1405 brochure** once it is published.
+- [ ] Decide whether to choose any **second (شناور) field**.
 
 ### Registration documents checklist
 
-- [x] **National ID & birth certificate** handy for accurate data entry.
-- [x] **Scanned photo** (JPG, correct size, formal, no heavy edits).
-- [x] **Bachelor’s info**:
-  - [x] University name and major.
-  - [x] Entry / graduation (or expected) dates.
-  - [x] Official GPA (or sanctioned partial GPA if still studying).
-- [x] **Military status** clarified and appropriate code ready (if applicable).
-- [x] **Special quotas** (ایثارگری etc.) documents, if relevant.
-- [x] Valid **phone** and **email** that you check regularly.
+- [ ] **National ID & birth certificate** handy for accurate data entry.
+- [ ] **Scanned photo** (JPG, correct size, formal, no heavy edits).
+- [ ] **Bachelor’s info**:
+  - [ ] University name and major.
+  - [ ] Entry / graduation (or expected) dates.
+  - [ ] Official GPA (or sanctioned partial GPA if still studying).
+- [ ] **Military status** clarified and appropriate code ready (if applicable).
+- [ ] **Special quotas** (ایثارگری etc.) documents, if relevant.
+- [ ] Valid **phone** and **email** that you check regularly.
 
 ---
 
@@ -113,11 +119,11 @@ For the **AI subgroup** of Computer Engineering:
 
 **Target profile for top performance (aggressive but realistic):**
 
-- G3: **70%**
-- G2: **70%**
+- G3 and G5: **80–95%**
+- G2 and G4: **70–90%**
 - G1: **40–60%**
 - G0 (English): **70–90%**
-- TODO
+
 ---
 
 ## Weekly & phase roadmap
@@ -190,3 +196,4 @@ Use files under `mocks/` to log each mock. For example `mocks/mock-01.md` contai
 - Time management notes
 - Top mistakes and concrete actions
 
+Keeping this log honest and updated will probably move your rank more than buying any extra book.

@@ -84,6 +84,29 @@ p { color: var(--muted); }
 .panel__hint { margin: 0; font-size: 14px; }
 .eyebrow { text-transform: uppercase; letter-spacing: 1.4px; color: var(--accent); font-weight: 700; margin: 0; font-size: 12px; }
 
+.tabs {
+  display: flex;
+  gap: 10px;
+  padding: 12px 16px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.tab {
+  background: rgba(106, 209, 255, 0.12);
+  color: #fff;
+  border: 1px solid rgba(106, 209, 255, 0.35);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.tab.active { background: rgba(248, 196, 113, 0.2); border-color: rgba(248, 196, 113, 0.5); }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
 .countdown-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-top: 14px; }
 .countdown-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 14px 16px; position: relative; overflow: hidden; }
 .countdown-card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(106, 209, 255, 0.08), rgba(248, 196, 113, 0.08)); opacity: 0.6; }
@@ -302,6 +325,15 @@ p { color: var(--muted); }
 .book-item .author { margin: 0; font-size: 12px; color: var(--muted); }
 .ocw-item a { color: var(--accent); text-decoration: none; font-weight: 600; }
 
+.course-card__header { display: flex; justify-content: space-between; gap: 10px; }
+.progress-block { background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border); border-radius: 12px; padding: 10px 12px; margin: 8px 0; }
+.progress-row { display: flex; justify-content: space-between; gap: 8px; align-items: center; margin-bottom: 6px; }
+.progress-inputs { display: flex; align-items: center; gap: 6px; }
+.progress-inputs input { width: 90px; }
+.progress-bar { width: 100%; height: 8px; background: var(--border); border-radius: 8px; overflow: hidden; }
+.progress-bar span { display: block; height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-2)); }
+.small { font-size: 12px; }
+
 .score-layout { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-top: 16px; }
 .calculator, .safe-range { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 14px; }
 .calculator h3, .safe-range h3 { margin-top: 0; }
@@ -357,6 +389,29 @@ p { color: var(--muted); }
 
 .footer { text-align: center; color: var(--muted); padding: 30px 12px 40px; }
 
+.form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; margin-top: 12px; }
+.form-grid label { display: flex; flex-direction: column; gap: 6px; color: #fff; font-weight: 600; }
+.form-grid input, .form-grid textarea {
+  background: #0c0f1a;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 8px 10px;
+  color: #fff;
+  font-family: inherit;
+}
+.btn {
+  align-self: flex-end;
+  background: linear-gradient(90deg, rgba(106, 209, 255, 0.2), rgba(248, 196, 113, 0.2));
+  border: 1px solid var(--border);
+  color: #fff;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.milestone-list { display: grid; gap: 10px; margin-top: 12px; }
+.milestone { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 12px; }
+
 @media (max-width: 880px) {
   .hero { grid-template-columns: 1fr; }
 }
@@ -382,4 +437,14 @@ p { color: var(--muted); }
   .book-item img { width: 50px; height: 70px; }
   .score-table, .plan-table, .weighting-table { min-width: 720px; }
   .band-column--wide { grid-column: span 1; }
+}
+
+@media (max-width: 820px) {
+  .tabs { flex-wrap: wrap; }
+  .timeline { overflow: visible; padding: 12px; }
+  .timeline-track { min-width: auto; }
+  .timeline-track::before, .timeline-track::after { display: none; }
+  .timeline-item { position: relative; left: auto; top: auto; transform: none; width: 100%; margin-bottom: 12px; text-align: left; }
+  .timeline-item .timeline-dot { margin: 0 8px 0 0; float: left; }
+  .timeline-item--stacked { padding-left: 28px; }
 }

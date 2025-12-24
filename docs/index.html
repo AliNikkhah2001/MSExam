@@ -44,128 +44,129 @@
     </div>
   </header>
 
+  <nav class="tabs" aria-label="Sections">
+    <button class="tab active" data-target="tab-timeline">Timeline</button>
+    <button class="tab" data-target="tab-courses">Courses</button>
+    <button class="tab" data-target="tab-score">Score Model</button>
+    <button class="tab" data-target="tab-pacing">Pacing</button>
+    <button class="tab" data-target="tab-planning">Planning</button>
+  </nav>
+
   <main class="page">
-    <section class="panel" id="countdown-panel">
-      <div class="panel__header">
-        <div>
-          <p class="eyebrow">Countdowns</p>
-          <h2>Stay on pace for every critical date</h2>
+    <div class="tab-panel active" id="tab-timeline">
+      <section class="panel" id="countdown-panel">
+        <div class="panel__header">
+          <div>
+            <p class="eyebrow">Countdowns</p>
+            <h2>Stay on pace for every critical date</h2>
+          </div>
+          <p class="panel__hint">Edit <code>docs/data/events.md</code> to update all counters automatically.</p>
         </div>
-        <p class="panel__hint">Edit <code>docs/data/events.md</code> to update all counters automatically.</p>
-      </div>
-      <div class="countdown-grid" id="countdown-grid"></div>
-    </section>
+        <div class="countdown-grid" id="countdown-grid"></div>
+      </section>
 
-    <section class="panel" id="timeline-panel">
-      <div class="panel__header">
-        <div>
-          <p class="eyebrow">Roadmap</p>
-          <h2>Visual timeline of registration, exam days, and results</h2>
+      <section class="panel" id="timeline-panel">
+        <div class="panel__header">
+          <div>
+            <p class="eyebrow">Roadmap</p>
+            <h2>Visual timeline of registration, exam days, and results</h2>
+          </div>
+          <p class="panel__hint">Events are rendered dynamically from the Markdown data file—no code changes required.</p>
         </div>
-        <p class="panel__hint">Events are rendered dynamically from the Markdown data file—no code changes required.</p>
-      </div>
-      <div class="timeline" id="timeline"></div>
-    </section>
+        <div class="timeline" id="timeline"></div>
+      </section>
+    </div>
 
-    <section class="panel" id="resources-panel">
-      <div class="panel__header">
-        <div>
-          <p class="eyebrow">Courses & sources</p>
-          <h2>Books, OCW lectures, and study focus by group</h2>
+    <div class="tab-panel" id="tab-courses">
+      <section class="panel" id="resources-panel">
+        <div class="panel__header">
+          <div>
+            <p class="eyebrow">Courses & sources</p>
+            <h2>Books, OCW lectures, and study focus by group</h2>
+          </div>
+          <p class="panel__hint">Book/resource data is pulled from <code>docs/data/resources.md</code>. Progress is stored locally in your browser.</p>
         </div>
-        <p class="panel__hint">Book covers load from public sources; add or swap resources in <code>docs/data/resources.md</code>.</p>
-      </div>
-      <div class="weight-legend" id="weight-legend"></div>
-      <div class="course-grid" id="course-grid"></div>
-    </section>
+        <div class="weight-legend" id="weight-legend"></div>
+        <div class="course-grid" id="course-grid"></div>
+      </section>
 
-    <section class="panel" id="tracks-panel">
-      <div class="panel__header">
-        <div>
-          <p class="eyebrow">OCW playlists</p>
-          <h2>Chapter-by-chapter playlists and mappings</h2>
+      <section class="panel" id="tracks-panel">
+        <div class="panel__header">
+          <div>
+            <p class="eyebrow">OCW playlists</p>
+            <h2>Chapter-by-chapter playlists and mappings</h2>
+          </div>
+          <p class="panel__hint">Rendered from the <code>studyTracks</code> section inside <code>docs/data/resources.md</code>.</p>
         </div>
-        <p class="panel__hint">Rendered from the <code>studyTracks</code> section inside <code>docs/data/resources.md</code>.</p>
-      </div>
-      <div class="study-grid" id="study-tracks"></div>
-    </section>
+        <div class="study-grid" id="study-tracks"></div>
+      </section>
 
-    <section class="panel" id="score-panel">
-      <div class="panel__header">
-        <div>
-          <p class="eyebrow">Score model</p>
-          <h2>Calculate weighted scores and benchmark against last exam</h2>
+      <section class="panel" id="custom-courses-panel">
+        <div class="panel__header">
+          <div>
+            <p class="eyebrow">Your additions</p>
+            <h2>Add a custom course or source</h2>
+          </div>
+          <p class="panel__hint">These entries live only in your browser (local storage).</p>
         </div>
-        <p class="panel__hint">Weights, safe ranges, and historical candidates are all Markdown-driven. Real AI subgroup rows live in <code>docs/data/real-ai-results-1404-1403.md</code>.</p>
-      </div>
-      <div class="score-layout">
-        <div class="calculator" id="calculator"></div>
-        <div class="safe-range" id="safe-range"></div>
-      </div>
-      <div class="table-wrapper">
-        <div class="table-header">
-          <h3>How 1404–1403 AI candidates performed (weighted model)</h3>
-          <p class="panel__hint">Top-100 subset from the public table; use this to sanity-check your own targets.</p>
-        </div>
-        <table class="score-table" id="score-table">
-          <thead>
-            <tr>
-              <th>Rank</th>
-              <th>Weighted %</th>
-              <th>G0</th>
-              <th>G1</th>
-              <th>G2</th>
-              <th>G3</th>
-              <th>G4</th>
-              <th>G5</th>
-              <th>Final weighted score</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-      </div>
-    </section>
+        <form id="add-course-form" class="form-grid">
+          <label>Title<input name="title" required placeholder="Course name" /></label>
+          <label>Link<input name="url" type="url" placeholder="https://..." /></label>
+          <label>Total sessions<input name="sessions" type="number" min="0" placeholder="e.g., 20" /></label>
+          <label>Total questions<input name="questions" type="number" min="0" placeholder="e.g., 150" /></label>
+          <button type="submit" class="btn">Add course</button>
+        </form>
+        <div class="course-grid" id="custom-course-grid"></div>
+      </section>
+    </div>
 
-    <section class="panel" id="self-eval-panel">
-      <div class="panel__header">
-        <div>
-          <p class="eyebrow">Past-paper plan</p>
-          <h2>Timeline for 1404→1390 self-evaluation mocks</h2>
+    <div class="tab-panel" id="tab-score">
+      <section class="panel" id="score-panel">
+        <div class="panel__header">
+          <div>
+            <p class="eyebrow">Score model</p>
+            <h2>Calculate weighted scores and target ranges</h2>
+          </div>
+          <p class="panel__hint">Weights and safe ranges are Markdown-driven.</p>
         </div>
-        <p class="panel__hint">Suggested dates and notes pull from <code>selfEvalPlan</code> in <code>docs/data/resources.md</code>.</p>
-      </div>
-      <div id="self-eval-plan"></div>
-    </section>
+        <div class="score-layout">
+          <div class="calculator" id="calculator"></div>
+          <div class="safe-range" id="safe-range"></div>
+        </div>
+      </section>
+    </div>
 
-    <section class="panel" id="pacing-panel">
-      <div class="panel__header">
-        <div>
-          <p class="eyebrow">Exam pacing</p>
-          <h2>Question counts, weights, and time budget per section</h2>
+    <div class="tab-panel" id="tab-pacing">
+      <section class="panel" id="pacing-panel">
+        <div class="panel__header">
+          <div>
+            <p class="eyebrow">Exam pacing</p>
+            <h2>Question counts, weights, and time budget per section</h2>
+          </div>
+          <p class="panel__hint">Numbers reflect the 115-question, 240-minute format shown in the official brochure.</p>
         </div>
-        <p class="panel__hint">Numbers reflect the 115-question, 240-minute format shown in the official brochure.</p>
-      </div>
-      <div id="pacing-table"></div>
-    </section>
+        <div id="pacing-table"></div>
+      </section>
+    </div>
 
-    <section class="panel" id="bands-panel">
-      <div class="panel__header">
-        <div>
-          <p class="eyebrow">Empirical bands</p>
-          <h2>Real 1404–1403 sample bands & mock planner</h2>
+    <div class="tab-panel" id="tab-planning">
+      <section class="panel" id="planning-panel">
+        <div class="panel__header">
+          <div>
+            <p class="eyebrow">Planning</p>
+            <h2>Add milestones and dates</h2>
+          </div>
+          <p class="panel__hint">Milestones are saved in your browser so you can track on mobile/desktop.</p>
         </div>
-        <p class="panel__hint">
-          Pulled from <code>docs/data/empirical-bands.md</code> and the raw rows in
-          <code>docs/data/real-ai-results-1404-1403.md</code>.
-        </p>
-      </div>
-      <div class="band-grid" id="band-grid"></div>
-      <div class="band-layout">
-        <div class="band-column" id="weighted-bands"></div>
-        <div class="band-column band-column--wide" id="block-targets"></div>
-        <div class="band-column" id="formula-card"></div>
-      </div>
-    </section>
+        <form id="planning-form" class="form-grid">
+          <label>Title<input name="title" required placeholder="Milestone title" /></label>
+          <label>Date<input name="date" type="date" required /></label>
+          <label>Notes<textarea name="note" rows="2" placeholder="Optional details"></textarea></label>
+          <button type="submit" class="btn">Add milestone</button>
+        </form>
+        <div id="milestone-list" class="milestone-list"></div>
+      </section>
+    </div>
   </main>
 
   <footer class="footer">

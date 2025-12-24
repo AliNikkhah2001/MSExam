@@ -1,3 +1,9 @@
+const STORAGE_KEYS = {
+  progress: 'courseProgress',
+  customCourses: 'customCourses',
+  milestones: 'studyMilestones',
+};
+
 async function loadJsonFromMarkdown(path) {
   const res = await fetch(path);
   if (!res.ok) throw new Error(`Failed to load ${path}: ${res.status}`);
@@ -28,6 +34,19 @@ function humanizeDuration(ms) {
   const minutes = Math.floor((totalSeconds % 3600) / 60);
   const seconds = totalSeconds % 60;
   return { days, hours, minutes, seconds };
+}
+
+function loadLocal(key, fallback) {
+  try {
+    const raw = localStorage.getItem(key);
+    return raw ? JSON.parse(raw) : fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+function saveLocal(key, value) {
+  localStorage.setItem(key, JSON.stringify(value));
 }
 
 function renderCountdownCards(events) {
@@ -87,10 +106,28 @@ function renderNextEvent(events) {
 
 function renderTimeline(events) {
   const container = document.getElementById('timeline');
+  const isMobile = window.matchMedia('(max-width: 820px)').matches;
+  const sorted = events.map((evt) => ({ ...evt, date: new Date(evt.datetime) })).sort((a, b) => a.date - b.date);
+
+  if (isMobile) {
+    container.innerHTML = '';
+    sorted.forEach((evt) => {
+      const status = evt.date < new Date() ? 'done' : 'upcoming';
+      const card = document.createElement('div');
+      card.className = `timeline-item timeline-item--stacked ${status}`;
+      card.innerHTML = `
+        <div class="timeline-dot"></div>
+        <p class="timeline-date">${formatDateTime(evt.date)}</p>
+        <h4>${evt.name}</h4>
+        <p class="timeline-meta">${evt.type}</p>
+        <p class="timeline-desc">${evt.description}</p>`;
+      container.appendChild(card);
+    });
+    return;
+  }
+
   container.innerHTML = '<div class="timeline-track"></div>';
   const track = container.querySelector('.timeline-track');
-  const now = new Date();
-  const sorted = events.map((evt) => ({ ...evt, date: new Date(evt.datetime) })).sort((a, b) => a.date - b.date);
   const start = sorted[0].date.getTime();
   const end = sorted[sorted.length - 1].date.getTime();
   const span = Math.max(1, end - start);
@@ -100,7 +137,7 @@ function renderTimeline(events) {
   const minGapPx = cardWidth + 24;
 
   sorted.forEach((evt) => {
-    const status = evt.date < now ? 'done' : 'upcoming';
+    const status = evt.date < new Date() ? 'done' : 'upcoming';
     const ratio = (evt.date.getTime() - start) / span;
     const leftPercent = ratio * 100;
     const leftPx = ratio * trackWidth;
@@ -126,48 +163,6 @@ function renderTimeline(events) {
   track.style.minHeight = `${170 + (rowsUsed - 1) * 140}px`;
 }
 
-function renderCourses(courses, weights) {
-  const grid = document.getElementById('course-grid');
-  grid.innerHTML = '';
-  courses.forEach((course) => {
-    const card = document.createElement('div');
-    card.className = 'course-card';
-    const weight = weights[course.code] ?? weights[course.group.split(' ')[0]];
-    card.innerHTML = `
-      <h3>${course.group}</h3>
-      <p class="course-weight">Weight in model: <strong>${weight ? `×${weight}` : '—'}</strong></p>
-      <p class="focus">${course.focus}</p>
-      <div>
-        <p class="eyebrow">Books</p>
-        <ul class="book-list">
-          ${course.books
-            .map(
-              (book) => `
-              <li class="book-item">
-                <img src="${book.cover}" alt="${book.title} cover" />
-                <div>
-                  <p class="title">${book.title}</p>
-                  <p class="author">${book.author}</p>
-                </div>
-              </li>`
-            )
-            .join('')}
-        </ul>
-      </div>
-      <div>
-        <p class="eyebrow">OCW / Lectures</p>
-        <ul class="ocw-list">
-          ${course.ocw
-            .map((c) => `
-              <li class="ocw-item"><a href="${c.url}" target="_blank" rel="noopener">${c.title}</a></li>
-            `)
-            .join('')}
-        </ul>
-      </div>`;
-    grid.appendChild(card);
-  });
-}
-
 function renderWeightLegend(weights) {
   const legend = document.getElementById('weight-legend');
   legend.innerHTML = '<p class="eyebrow">Course weights</p>';
@@ -182,6 +177,124 @@ function renderWeightLegend(weights) {
       list.appendChild(pill);
     });
   legend.appendChild(list);
+}
+
+function getProgressState(courseCode, progress) {
+  const stored = progress[courseCode] || {};
+  return {
+    sessionsDone: stored.sessionsDone || 0,
+    questionsDone: stored.questionsDone || 0,
+    totalSessions: stored.totalSessions || null,
+    totalQuestions: stored.totalQuestions || null,
+  };
+}
+
+function renderCourseCard(course, weights, progress, onUpdate) {
+  const weight = weights[course.code] ?? weights[course.group.split(' ')[0]];
+  const state = getProgressState(course.code, progress);
+  const totalSessions = state.totalSessions ?? course.totalSessions ?? '';
+  const totalQuestions = state.totalQuestions ?? course.totalQuestions ?? '';
+
+  const card = document.createElement('div');
+  card.className = 'course-card';
+  const books = (course.books || [])
+    .map(
+      (book) => `
+      <li class="book-item">
+        <img src="${book.cover}" alt="${book.title} cover" />
+        <div>
+          <p class="title">${book.title}</p>
+          <p class="author">${book.author}</p>
+        </div>
+      </li>`
+    )
+    .join('');
+  const ocw = (course.ocw || [])
+    .map((c) => `<li class="ocw-item"><a href="${c.url}" target="_blank" rel="noopener">${c.title}</a></li>`)
+    .join('');
+
+  card.innerHTML = `
+    <div class="course-card__header">
+      <div>
+        <h3>${course.group}</h3>
+        <p class="course-weight">Weight in model: <strong>${weight ? `×${weight}` : '—'}</strong></p>
+        <p class="focus">${course.focus || ''}</p>
+      </div>
+    </div>
+    <div class="progress-block">
+      <div class="progress-row">
+        <label>Sessions watched</label>
+        <div class="progress-inputs">
+          <input type="number" min="0" class="input-sessions-done" value="${state.sessionsDone}" />
+          <span>/</span>
+          <input type="number" min="0" class="input-sessions-total" value="${totalSessions}" placeholder="total" />
+        </div>
+      </div>
+      <div class="progress-row">
+        <label>Questions solved</label>
+        <div class="progress-inputs">
+          <input type="number" min="0" class="input-questions-done" value="${state.questionsDone}" />
+          <span>/</span>
+          <input type="number" min="0" class="input-questions-total" value="${totalQuestions}" placeholder="total" />
+        </div>
+      </div>
+      <div class="progress-bar">
+        <span style="width:${computeProgressPct(state.sessionsDone, totalSessions)}%"></span>
+      </div>
+      <p class="muted small">Progress bars use the sessions total; edit totals to match your source.</p>
+    </div>
+    <div>
+      <p class="eyebrow">Books</p>
+      <ul class="book-list">${books}</ul>
+    </div>
+    <div>
+      <p class="eyebrow">OCW / Lectures</p>
+      <ul class="ocw-list">${ocw}</ul>
+    </div>`;
+
+  const sessionDoneInput = card.querySelector('.input-sessions-done');
+  const sessionTotalInput = card.querySelector('.input-sessions-total');
+  const qDoneInput = card.querySelector('.input-questions-done');
+  const qTotalInput = card.querySelector('.input-questions-total');
+  const bar = card.querySelector('.progress-bar span');
+
+  const sync = () => {
+    const next = {
+      sessionsDone: Number(sessionDoneInput.value) || 0,
+      questionsDone: Number(qDoneInput.value) || 0,
+      totalSessions: Number(sessionTotalInput.value) || 0,
+      totalQuestions: Number(qTotalInput.value) || 0,
+    };
+    bar.style.width = `${computeProgressPct(next.sessionsDone, next.totalSessions)}%`;
+    onUpdate(course.code, next);
+  };
+
+  [sessionDoneInput, sessionTotalInput, qDoneInput, qTotalInput].forEach((el) => {
+    el.addEventListener('input', sync);
+  });
+
+  return card;
+}
+
+function computeProgressPct(done, total) {
+  if (!total || total <= 0) return 0;
+  return Math.min(100, Math.max(0, (done / total) * 100));
+}
+
+function renderCourses(courses, weights, progress, onUpdate) {
+  const grid = document.getElementById('course-grid');
+  grid.innerHTML = '';
+  courses.forEach((course) => grid.appendChild(renderCourseCard(course, weights, progress, onUpdate)));
+}
+
+function renderCustomCourses(weights, progress, onUpdate) {
+  const custom = loadLocal(STORAGE_KEYS.customCourses, []);
+  const grid = document.getElementById('custom-course-grid');
+  grid.innerHTML = '';
+  custom.forEach((course) => {
+    const card = renderCourseCard(course, weights, progress, onUpdate);
+    grid.appendChild(card);
+  });
 }
 
 function renderStudyTracks(tracks) {
@@ -249,7 +362,10 @@ function renderCalculator(weights) {
 function renderSafeRange(safeRanges) {
   const container = document.getElementById('safe-range');
   const featured = safeRanges.featured || safeRanges.top3;
-  if (!featured) return;
+  if (!featured) {
+    container.innerHTML = '<p>No safe range data provided.</p>';
+    return;
+  }
   container.innerHTML = `
     <h3>${featured.title || 'Safe range snapshot'}</h3>
     <p>${featured.confidence}</p>
@@ -260,79 +376,6 @@ function renderSafeRange(safeRanges) {
           .map(([group, band]) => `<li><strong>${group}</strong>: ${band}</li>`)
           .join('')) || ''}
     </ul>`;
-}
-
-function renderScoreTable(candidates, weights) {
-  const tbody = document.querySelector('#score-table tbody');
-  tbody.innerHTML = '';
-  const formatCell = (value) => `${(value * 100).toFixed(1)}%`;
-  candidates.forEach((c) => {
-    const computed = typeof c.weightedScore === 'number'
-      ? c.weightedScore
-      : computeWeightedScore(c.groupScores, weights);
-    const barWidth = Math.min(100, computed);
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${c.rank}</td>
-      <td>
-        <div class="score-bar">
-          <span style="width:${barWidth.toFixed(1)}%"></span>
-          <strong>${computed.toFixed(2)}%</strong>
-        </div>
-      </td>
-      <td>${formatCell(c.groupScores.G0)}</td>
-      <td>${formatCell(c.groupScores.G1)}</td>
-      <td>${formatCell(c.groupScores.G2)}</td>
-      <td>${formatCell(c.groupScores.G3)}</td>
-      <td>${formatCell(c.groupScores.G4)}</td>
-      <td>${formatCell(c.groupScores.G5)}</td>
-      <td>${computed.toFixed(2)}%</td>`;
-    tbody.appendChild(tr);
-  });
-}
-
-function renderSelfEvalPlan(plan) {
-  const container = document.getElementById('self-eval-plan');
-  if (!container || !plan) return;
-
-  const finishDate = plan.studyCompletionBy
-    ? new Date(`${plan.studyCompletionBy}T20:00:00+03:30`)
-    : null;
-  const notes = (plan.notes || [])
-    .map((n) => `<li>${n}</li>`)
-    .join('');
-  const rows = (plan.pastPapers || [])
-    .map((p) => {
-      const date = new Date(`${p.recommendedDate}T09:00:00+03:30`);
-      return `
-        <tr>
-          <td>${p.year}</td>
-          <td>${formatDateTime(date)}</td>
-          <td>${p.focus}</td>
-        </tr>`;
-    })
-    .join('');
-
-  container.innerHTML = `
-    <div class="plan-heading">
-      <h3>Mock cadence using past papers (1404→1390)</h3>
-      <p class="muted">${plan.headline || ''}</p>
-      ${finishDate ? `<p class="eyebrow">Finish first pass by <strong>${formatDateTime(finishDate)}</strong></p>` : ''}
-    </div>
-    <div class="plan-layout">
-      <div>
-        <p class="eyebrow">How to run them</p>
-        <ul class="note-list">${notes}</ul>
-      </div>
-      <div class="table-wrapper">
-        <table class="plan-table">
-          <thead>
-            <tr><th>Past exam</th><th>Suggested date</th><th>Focus</th></tr>
-          </thead>
-          <tbody>${rows}</tbody>
-        </table>
-      </div>
-    </div>`;
 }
 
 function renderSectionPacing(sections, weights, weightingDisplay, totalMinutes = 240) {
@@ -424,123 +467,116 @@ function renderSectionPacing(sections, weights, weightingDisplay, totalMinutes =
     </table>`;
 }
 
-function renderBandSummary(bandsData) {
-  const container = document.getElementById('band-grid');
-  if (!container || !bandsData?.bands) return;
-  container.innerHTML = '';
-  bandsData.bands.forEach((band) => {
-    const card = document.createElement('div');
-    card.className = 'band-card';
-    const metrics = ['L', 'M', 'T', 'A', 'H', 'S', 'W']
-      .filter((k) => band.metrics[k])
-      .map(
-        (k) => `
-        <li>
-          <span class="code">${k}</span>
-          <div>
-            <p class="range">${band.metrics[k].range}</p>
-            <p class="muted">avg ~${band.metrics[k].avg}%</p>
-          </div>
-        </li>`,
-      )
-      .join('');
-    card.innerHTML = `
-      <div class="band-header">
-        <p class="eyebrow">${band.label}</p>
-        <h3>${band.range}</h3>
-        <p class="muted">Sample size: ${band.sampleSize}</p>
-        <p class="muted">${band.description}</p>
-      </div>
-      <ul class="band-metrics">${metrics}</ul>`;
-    container.appendChild(card);
+function initTabs() {
+  const buttons = document.querySelectorAll('.tab');
+  const panels = document.querySelectorAll('.tab-panel');
+  const activate = (id) => {
+    buttons.forEach((btn) => btn.classList.toggle('active', btn.dataset.target === id));
+    panels.forEach((panel) => panel.classList.toggle('active', panel.id === id));
+  };
+  buttons.forEach((btn) => {
+    btn.addEventListener('click', () => activate(btn.dataset.target));
+  });
+  activate('tab-timeline');
+}
+
+function setupCustomCourseForm(weights, progress, onUpdate) {
+  const form = document.getElementById('add-course-form');
+  if (!form) return;
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const formData = new FormData(form);
+    const title = (formData.get('title') || '').trim();
+    if (!title) return;
+    const url = (formData.get('url') || '').trim();
+    const sessions = Number(formData.get('sessions')) || 0;
+    const questions = Number(formData.get('questions')) || 0;
+    const custom = loadLocal(STORAGE_KEYS.customCourses, []);
+    const code = `CUSTOM-${Date.now()}`;
+    custom.push({
+      code,
+      group: title,
+      focus: url ? `Custom source: ${url}` : 'Custom source',
+      books: [],
+      ocw: url ? [{ title: 'Link', url }] : [],
+      totalSessions: sessions || undefined,
+      totalQuestions: questions || undefined,
+    });
+    saveLocal(STORAGE_KEYS.customCourses, custom);
+    form.reset();
+    renderCustomCourses(weights, progress, onUpdate);
   });
 }
 
-function renderBlockTargets(bandsData) {
-  const container = document.getElementById('block-targets');
-  if (!container || !bandsData?.blockTargets) return;
-  container.innerHTML = '';
-  bandsData.blockTargets.forEach((block) => {
-    const bandLines = Object.entries(block.bands)
-      .map(([band, text]) => `<li><strong>${band}</strong>: ${text}</li>`)
-      .join('');
-    const targets = (block.targets || []).map((t) => `<li>${t}</li>`).join('');
-    const card = document.createElement('div');
-    card.className = 'target-card';
-    card.innerHTML = `
-      <div class="target-heading">
-        <p class="eyebrow">${block.block} block (weight ×${block.weight})</p>
-        <h4>${block.name}</h4>
-        <p class="muted">${block.notes || ''}</p>
-      </div>
-      <div class="target-body">
-        <p class="eyebrow">Observed ranges (sample)</p>
-        <ul class="band-lines">${bandLines}</ul>
-        <p class="eyebrow">Practical targets</p>
-        <ul class="targets">${targets}</ul>
-      </div>`;
-    container.appendChild(card);
-  });
+function renderPlanning(milestones) {
+  const list = document.getElementById('milestone-list');
+  if (!list) return;
+  if (!milestones.length) {
+    list.innerHTML = '<p class="muted">No milestones yet. Add one to get started.</p>';
+    return;
+  }
+  const rows = milestones
+    .sort((a, b) => new Date(a.date) - new Date(b.date))
+    .map(
+      (m) => `
+      <div class="milestone">
+        <div>
+          <p class="eyebrow">${m.date}</p>
+          <h4>${m.title}</h4>
+          <p class="muted">${m.note || ''}</p>
+        </div>
+      </div>`
+    )
+    .join('');
+  list.innerHTML = rows;
 }
 
-function renderWeightedBands(bandsData) {
-  const container = document.getElementById('weighted-bands');
-  if (!container || !bandsData?.weightedBands) return;
-  container.innerHTML = '<h3>Weighted score bands (model)</h3>';
-  const list = document.createElement('div');
-  list.className = 'weighted-band-list';
-  bandsData.weightedBands.forEach((band) => {
-    const pill = document.createElement('div');
-    pill.className = 'weighted-band';
-    pill.innerHTML = `
-      <div class="band-range">${band.range}</div>
-      <div class="band-score">${band.score}</div>
-      <p class="muted">${band.note}</p>`;
-    list.appendChild(pill);
+function setupPlanningForm() {
+  const form = document.getElementById('planning-form');
+  if (!form) return;
+  const milestones = loadLocal(STORAGE_KEYS.milestones, []);
+  renderPlanning(milestones);
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const data = new FormData(form);
+    const title = (data.get('title') || '').trim();
+    const date = data.get('date');
+    if (!title || !date) return;
+    const note = (data.get('note') || '').trim();
+    milestones.push({ title, date, note });
+    saveLocal(STORAGE_KEYS.milestones, milestones);
+    renderPlanning(milestones);
+    form.reset();
   });
-  container.appendChild(list);
-}
-
-function renderFormula(bandsData, weights) {
-  const container = document.getElementById('formula-card');
-  if (!container) return;
-  const formulaText = bandsData?.formula || '(1*L + 2*M + 3*T + 4*A + 2*H + 3*S) / 15';
-  const mockLink = bandsData?.mockSchema?.download || './data/mock-results-schema.csv';
-  container.innerHTML = `
-    <h3>Mock logging template</h3>
-    <p class="muted">Use this Excel/Sheets-ready schema and formula to log your practice tests.</p>
-    <p class="eyebrow">Weighted formula</p>
-    <code class="formula-code">${formulaText}</code>
-    <p class="muted">Weights currently: ${Object.entries(weights)
-      .map(([g, w]) => `${g}×${w}`)
-      .join(', ')}</p>
-    <a class="download" href="${mockLink}" download>Download mock-results-schema.csv</a>
-  `;
 }
 
 async function bootstrap() {
   try {
-    const [eventData, resources, bands] = await Promise.all([
+    initTabs();
+    setupPlanningForm();
+    const [eventData, resources] = await Promise.all([
       loadJsonFromMarkdown('./data/events.md'),
       loadJsonFromMarkdown('./data/resources.md'),
-      loadJsonFromMarkdown('./data/empirical-bands.md'),
     ]);
     const events = eventData.events;
+    const progress = loadLocal(STORAGE_KEYS.progress, {});
+
+    const updateProgress = (code, data) => {
+      const next = { ...progress, [code]: data };
+      saveLocal(STORAGE_KEYS.progress, next);
+    };
+
     renderCountdownCards(events);
     renderNextEvent(events);
     renderTimeline(events);
     renderWeightLegend(resources.weights);
-    renderCourses(resources.courses, resources.weights);
+    renderCourses(resources.courses, resources.weights, progress, updateProgress);
+    renderCustomCourses(resources.weights, progress, updateProgress);
+    setupCustomCourseForm(resources.weights, progress, updateProgress);
     renderStudyTracks(resources.studyTracks || []);
     renderCalculator(resources.weights);
-    renderSafeRange(resources.safeRanges);
-    renderScoreTable(resources.candidateScores, resources.weights);
-    renderSelfEvalPlan(resources.selfEvalPlan);
+    renderSafeRange(resources.safeRanges || {});
     renderSectionPacing(resources.sectionPacing, resources.weights, resources.weightingDisplay);
-    renderBandSummary(bands);
-    renderBlockTargets(bands);
-    renderWeightedBands(bands);
-    renderFormula(bands, resources.weights);
   } catch (err) {
     console.error(err);
     const page = document.querySelector('.page');

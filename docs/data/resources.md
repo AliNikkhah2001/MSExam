@@ -51,6 +51,8 @@
       "code": "G0",
       "group": "G0 – English Language",
       "focus": "Reading speed, vocabulary depth, and academic structures with TOEFL/IELTS-style passages.",
+      "totalSessions": 24,
+      "totalQuestions": 200,
       "books": [
         {
           "title": "Barron's Essential Words for the TOEFL",
@@ -78,6 +80,8 @@
       "code": "G1",
       "group": "G1 – Math & Statistics",
       "focus": "Linear algebra foundations, probability/statistics for AI, and discrete math for proofs and counting.",
+      "totalSessions": 32,
+      "totalQuestions": 300,
       "books": [
         {
           "title": "Advanced Engineering Mathematics",
@@ -114,6 +118,8 @@
       "code": "G2",
       "group": "G2 – Automata & Signals",
       "focus": "Formal languages/automata paired with CT/DT signal processing and transforms.",
+      "totalSessions": 28,
+      "totalQuestions": 250,
       "books": [
         {
           "title": "Introduction to Automata Theory, Languages, and Computation",
@@ -141,6 +147,8 @@
       "code": "G3",
       "group": "G3 – Data Structures, Algorithms, AI",
       "focus": "High-weight core for the AI subgroup: DS/algorithms, AIMA search & probabilistic reasoning.",
+      "totalSessions": 36,
+      "totalQuestions": 400,
       "books": [
         {
           "title": "Introduction to Algorithms",
@@ -177,6 +185,8 @@
       "code": "G4",
       "group": "G4 – Digital Logic & Architecture",
       "focus": "Logic design, combinational/sequential circuits, datapath/control, and MIPS-level architecture.",
+      "totalSessions": 24,
+      "totalQuestions": 240,
       "books": [
         {
           "title": "Digital Design",
@@ -204,6 +214,8 @@
       "code": "G5",
       "group": "G5 – Systems (OS, Networks, DB)",
       "focus": "Operating systems, networks, and databases with emphasis on OS scheduling, transport layer, and SQL/normalization.",
+      "totalSessions": 30,
+      "totalQuestions": 360,
       "books": [
         {
           "title": "Operating System Concepts",

@@ -50,69 +50,44 @@
     {
       "code": "G0",
       "group": "G0 – English Language",
-      "focus": "Reading speed, vocabulary depth, and academic structures with TOEFL/IELTS-style passages.",
-      "totalSessions": 24,
-      "totalQuestions": 200,
+      "focus": "جلد ۱ کتاب زبان عمومی زیر ذره‌بین (نگاه دانش). 440 vocab + 43 cloze practice tests; exam mix: 10 vocab, 5 grammar, 15 reading. Target ≥60%.",
+      "totalQuestions": 483,
       "books": [
         {
-          "title": "Barron's Essential Words for the TOEFL",
-          "author": "Steven J. Matthiesen",
-          "cover": "https://images-na.ssl-images-amazon.com/images/I/51YO5uQm3jL._SX258_BO1,204,203,200_.jpg"
-        },
-        {
-          "title": "Objective IELTS Advanced",
-          "author": "Annette Capel, Wendy Sharp",
-          "cover": "https://images-na.ssl-images-amazon.com/images/I/51WyQ6ttuNL._SX379_BO1,204,203,200_.jpg"
-        }
-      ],
-      "ocw": [
-        {
-          "title": "MIT OpenCourseWare – Academic English for International Students",
-          "url": "https://ocw.mit.edu/courses/21g-223-writing-in-english-spring-2004/"
-        },
-        {
-          "title": "Sharif University – Technical English seminars",
-          "url": "https://ocw.sharif.edu/course/id/130/"
+          "title": "زبان عمومی زیر ذره‌بین – جلد ۱",
+          "author": "H. Dehghanpour, A. Abbasi (نگاه دانش)",
+          "cover": "https://generalenglish.ir/wp-content/uploads/2017/09/vol1-cover-1.png"
         }
       ]
     },
     {
-      "code": "G1",
-      "group": "G1 – Math & Statistics",
-      "focus": "Linear algebra foundations, probability/statistics for AI, and discrete math for proofs and counting.",
-      "totalSessions": 32,
-      "totalQuestions": 300,
-      "books": [
-        {
-          "title": "Advanced Engineering Mathematics",
-          "author": "Erwin Kreyszig",
-          "cover": "https://images-na.ssl-images-amazon.com/images/I/51L1WTrS8hL._SX396_BO1,204,203,200_.jpg"
-        },
-        {
-          "title": "Probability and Statistics for Engineering and the Sciences",
-          "author": "Jay L. Devore",
-          "cover": "https://images-na.ssl-images-amazon.com/images/I/41lMY1N0bBL._SX396_BO1,204,203,200_.jpg"
-        },
-        {
-          "title": "Discrete Mathematics and Its Applications",
-          "author": "Kenneth H. Rosen",
-          "cover": "https://images-na.ssl-images-amazon.com/images/I/41h0uxq9dCL._SX397_BO1,204,203,200_.jpg"
-        }
-      ],
+      "code": "G1-M1",
+      "group": "G1 – Math 1",
+      "focus": "Sharif OCW (ریاضی 1) – 30 sessions. Exam: 3 questions. Practice bank: 197 test questions.",
+      "totalSessions": 30,
+      "totalQuestions": 197,
       "ocw": [
         {
-          "title": "MIT 18.06 Linear Algebra",
-          "url": "https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/"
-        },
-        {
-          "title": "MIT 6.041 / RES.6-012 – Probability",
-          "url": "https://ocw.mit.edu/search/?q=6.041"
-        },
-        {
-          "title": "University of Tehran – Discrete Mathematics (OCW)",
-          "url": "https://ocw.ut.ac.ir/course/2480/Discrete-Mathematics"
+          "title": "Sharif University OCW – ریاضی 1 (30 sessions)",
+          "url": "https://ocw.sharif.ir/course/id/255/%D8%B1%DB%8C%D8%A7%D8%B6%DB%8C-1"
         }
       ]
+    },
+    {
+      "code": "G1-M2",
+      "group": "G1 – Math 2",
+      "focus": "Continuation math track. Exam: 3 questions. Practice bank: 169 test questions.",
+      "totalQuestions": 169,
+      "books": [],
+      "ocw": []
+    },
+    {
+      "code": "G1-STAT",
+      "group": "G1 – Engineering Statistics & Probability",
+      "focus": "Exam: 7 questions in G1. Practice bank: 246 test questions.",
+      "totalQuestions": 246,
+      "books": [],
+      "ocw": []
     },
     {
       "code": "G2",

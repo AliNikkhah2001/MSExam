@@ -5,7 +5,10 @@ const STORAGE_KEYS = {
 };
 
 async function loadJsonFromMarkdown(path) {
-  const res = await fetch(path);
+  // Cache-bust to ensure GitHub Pages/CDN serves the latest markdown after updates
+  const cacheBust = `_=${Date.now()}`;
+  const url = path.includes('?') ? `${path}&${cacheBust}` : `${path}?${cacheBust}`;
+  const res = await fetch(url);
   if (!res.ok) throw new Error(`Failed to load ${path}: ${res.status}`);
   const text = await res.text();
   const match = text.match(/```json([\s\S]*?)```/);
